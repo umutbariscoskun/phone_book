@@ -1,0 +1,4 @@
+enum StorageBucketType {
+  CONTACTS,
+  PROFILE,
+}
