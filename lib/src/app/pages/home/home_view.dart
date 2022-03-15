@@ -15,6 +15,7 @@ class _HomeViewState extends ViewState<HomeView, HomeController> {
   Widget get view {
     return Scaffold(
       key: globalKey,
+      body: Column(),
     );
   }
 }

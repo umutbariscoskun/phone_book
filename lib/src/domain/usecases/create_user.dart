@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
+import 'package:phone_book/src/domain/entities/contact.dart';
 import 'package:phone_book/src/domain/repositories/user_repository.dart';
 
 class CreateUser extends UseCase<void, CreateUserParams> {
@@ -11,8 +12,14 @@ class CreateUser extends UseCase<void, CreateUserParams> {
   Future<Stream<void>> buildUseCaseStream(CreateUserParams? params) async {
     StreamController<void> controller = StreamController();
     try {
-      await _userRepository.createUser(params!.firstname, params.lastname,
-          params.email, params.password, params.imageUrl);
+      await _userRepository.createUser(
+        params!.firstname,
+        params.lastname,
+        params.email,
+        params.phoneNumber,
+        params.imageUrl,
+        params.password,
+      );
       controller.close();
     } catch (e, st) {
       print(e);
@@ -27,14 +34,16 @@ class CreateUserParams {
   final String firstname;
   final String lastname;
   final String email;
-  final String password;
+  final String phoneNumber;
   final String imageUrl;
+  final String password;
 
   CreateUserParams(
     this.firstname,
     this.lastname,
     this.email,
-    this.password,
+    this.phoneNumber,
     this.imageUrl,
+    this.password,
   );
 }
