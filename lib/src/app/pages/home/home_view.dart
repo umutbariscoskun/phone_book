@@ -124,11 +124,12 @@ class _CurrentUserAppBar extends StatelessWidget {
               ),
             ],
           ),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(50),
-            child: Image(
+          ClipOval(
+            child: Image.network(
+              imageUrl,
               width: 45,
-              image: NetworkImage(imageUrl),
+              height: 45,
+              fit: BoxFit.cover,
             ),
           ),
         ],
@@ -251,11 +252,12 @@ class _ContactCard extends StatelessWidget {
         children: [
           Row(
             children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(50),
-                child: Image(
+              ClipOval(
+                child: Image.network(
+                  contact.imageUrl,
                   width: 45,
-                  image: NetworkImage(contact.imageUrl),
+                  height: 45,
+                  fit: BoxFit.cover,
                 ),
               ),
               SizedBox(width: defaultSizedBoxPadding),
