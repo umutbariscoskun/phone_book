@@ -13,24 +13,17 @@ class SignUpPresenter extends Presenter {
   late Function signInOnComplete;
   late Function signInOnError;
 
-  late Function uploadProfileImageToStorageOnNext;
-  late Function uploadProfileImageToStorageOnError;
-
   final CreateUser _createUser;
   final SignIn _signIn;
-  final UploadProfileImageToStorage _uploadProfileImageToStorage;
 
   SignUpPresenter(UserRepository _userRepository)
       : _createUser = CreateUser(_userRepository),
-        _signIn = SignIn(_userRepository),
-        _uploadProfileImageToStorage =
-            UploadProfileImageToStorage(_userRepository);
+        _signIn = SignIn(_userRepository);
 
   @override
   void dispose() {
     _createUser.dispose();
     _signIn.dispose();
-    _uploadProfileImageToStorage.dispose();
   }
 
   void createUser(String firstname, String lastName, String email,
@@ -43,14 +36,6 @@ class SignUpPresenter extends Presenter {
 
   void signIn(String email, String password) {
     _signIn.execute(_SignInObserver(this), SignInParams(email, password));
-  }
-
-  void uploadProfileImageToStorage(
-      String imagePath, String imageName, StorageBucketType storageBucketType) {
-    _uploadProfileImageToStorage.execute(
-        _UploadProfileImageToStorageObserver(this),
-        UploadProfileImageToStorageParams(
-            imagePath, imageName, storageBucketType));
   }
 }
 
@@ -88,23 +73,4 @@ class _SignInObserver extends Observer<void> {
 
   @override
   void onNext(_) {}
-}
-
-class _UploadProfileImageToStorageObserver extends Observer<String> {
-  final SignUpPresenter _presenter;
-
-  _UploadProfileImageToStorageObserver(this._presenter);
-
-  @override
-  void onComplete() {}
-
-  @override
-  void onError(e) {
-    _presenter.uploadProfileImageToStorageOnError(e);
-  }
-
-  @override
-  void onNext(String? response) {
-    _presenter.uploadProfileImageToStorageOnNext(response);
-  }
 }

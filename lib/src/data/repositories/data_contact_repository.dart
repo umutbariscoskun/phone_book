@@ -1,7 +1,9 @@
 import 'dart:async';
 
+import 'package:phone_book/src/data/helpers/upload_helper.dart';
 import 'package:phone_book/src/domain/entities/contact.dart';
 import 'package:phone_book/src/domain/repositories/contact_repository.dart';
+import 'package:phone_book/src/domain/types/enums/storage_bucket_type.dart';
 
 class DataContactRepository implements ContactRepository {
   static final _instance = DataContactRepository._internal();
@@ -138,6 +140,20 @@ class DataContactRepository implements ContactRepository {
       Future.delayed(Duration.zero).then(
         (_) => _streamController.add(_contacts),
       );
+    } catch (e, st) {
+      print(e);
+      print(st);
+      rethrow;
+    }
+  }
+
+  @override
+  Future<String> uploadContactImageToStorage(
+      String imagePath, String imageName, StorageBucketType storageType) async {
+    try {
+      String url = await UploadHelper()
+          .uploadImageToStorage(imagePath, imageName, storageType);
+      return url;
     } catch (e, st) {
       print(e);
       print(st);

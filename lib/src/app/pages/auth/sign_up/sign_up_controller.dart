@@ -21,10 +21,6 @@ class SignUpController extends Controller {
   String? phoneNumber;
   List<Contact> contacts = [];
 
-  String? downloadUrl;
-
-  final ImagePicker imagePicker = ImagePicker();
-
   @override
   void initListeners() {
     _presenter.createUserOnComplete = () {
@@ -44,15 +40,6 @@ class SignUpController extends Controller {
     };
 
     _presenter.signInOnError = (e) {};
-
-    _presenter.uploadProfileImageToStorageOnNext = (String? response) {
-      if (response != null) {
-        downloadUrl = response;
-        refreshUI();
-      }
-    };
-
-    _presenter.uploadProfileImageToStorageOnError = (e) {};
   }
 
   @override
@@ -90,18 +77,6 @@ class SignUpController extends Controller {
 
   void onPhoneNumberTextFieldChanged(String value) {
     phoneNumber = value.trim().toString();
-    refreshUI();
-  }
-
-  void pickImage() async {
-    final XFile? image =
-        await imagePicker.pickImage(source: ImageSource.gallery);
-
-    _presenter.uploadProfileImageToStorage(
-      image!.path,
-      image.name,
-      StorageBucketType.PROFILE,
-    );
     refreshUI();
   }
 

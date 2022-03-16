@@ -32,15 +32,17 @@ class DataUserRepository implements UserRepository {
       UserCredential userCredential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
 
-      _firestore.collection("Users").doc(userCredential.user!.uid).set({
-        'firstName': firstname,
-        'lastName': lastName,
-        'email': email,
-        'phoneNumber': phoneNumber,
-        'imageUrl':
-            "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png",
-        'Contacts': <Contact>[],
-      });
+      _firestore.collection("Users").doc(userCredential.user!.uid).set(
+        {
+          'firstName': firstname,
+          'lastName': lastName,
+          'email': email,
+          'phoneNumber': phoneNumber,
+          'imageUrl':
+              "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png",
+          'Contacts': <Contact>[],
+        },
+      );
     } catch (e, st) {
       print(e);
       print(st);

@@ -43,15 +43,26 @@ class _AddContactViewState
                       children: [
                         SizedBox(height: padding.top + defaultSizedBoxPadding),
                         GestureDetector(
-                          onTap: () {},
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(100),
-                            child: Image(
-                              width: 150,
-                              image: AssetImage("assets/images/select.png"),
-                            ),
-                          ),
-                        ),
+                            onTap: () {
+                              controller.pickImage();
+                            },
+                            child: controller.downloadUrl != null
+                                ? ClipOval(
+                                    child: Image.network(
+                                      controller.downloadUrl!,
+                                      width: 100,
+                                      height: 100,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  )
+                                : ClipOval(
+                                    child: Image(
+                                    image:
+                                        AssetImage("assets/images/select.png"),
+                                    width: 100,
+                                    height: 100,
+                                    fit: BoxFit.cover,
+                                  ))),
                         SizedBox(height: defaultSizedBoxPadding),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -143,34 +154,15 @@ class _AddContactViewState
                               ),
                             ),
                             SizedBox(height: 5),
-                            Container(
-                              padding: EdgeInsets.only(left: 15),
-                              width: size.width - 44,
-                              height: 56,
-                              decoration: BoxDecoration(
-                                border:
-                                    Border.all(color: kBlack.withOpacity(0.3)),
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                              child: TextFormField(
-                                obscureText: true,
-                                keyboardType: TextInputType.visiblePassword,
-                                onChanged: (value) =>
-                                    controller.onPasswordTextChanged(value),
-                                cursorColor: kPrimaryColor,
-                                decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                  hintText: 'Password',
-                                ),
-                              ),
-                            ),
                           ],
                         ),
                         SizedBox(height: defaultSizedBoxPadding),
                         Container(
                           margin: EdgeInsets.symmetric(horizontal: 100),
                           child: DefaultButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              controller.addContact();
+                            },
                             text: PhoneBookTexts.addContact,
                             color: kPrimaryColor,
                           ),
