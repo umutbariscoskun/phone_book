@@ -1,6 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:phone_book/src/app/pages/auth/sign_in/sign_in_view.dart';
 import 'package:phone_book/src/app/pages/auth/sign_up/sign_up_view.dart';
+import 'package:phone_book/src/app/pages/splash/splash_view.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,7 +21,7 @@ class MyApp extends StatelessWidget {
         brightness: Brightness.light,
       ),
       debugShowCheckedModeBanner: false,
-      home: SignUpView(),
+      home: SplashView(),
     );
   }
 }

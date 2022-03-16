@@ -8,8 +8,8 @@ class UploadHelper {
       String imagePath, String imageName, StorageBucketType storageType) async {
     final FirebaseStorage _firebaseStorage = FirebaseStorage.instanceFor(
       bucket: storageType == StorageBucketType.CONTACTS
-          ? "gs://phonebook-66932.appspot.com/contacts"
-          : "gs://phonebook-66932.appspot.com/profile_images",
+          ? "contacts/"
+          : "profile_images/",
     );
 
     String filePath = '$imageName-${DateTime.now().millisecondsSinceEpoch}.png';

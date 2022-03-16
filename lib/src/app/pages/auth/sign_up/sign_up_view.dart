@@ -35,20 +35,12 @@ class _SignUpViewState extends ViewState<SignUpView, SignUpController> {
                     children: [
                       SizedBox(height: padding.top + 22),
                       Center(
-                        child: ControlledWidgetBuilder<SignUpController>(
-                          builder: (context, controller) {
-                            return GestureDetector(
-                              onTap: () {
-                                controller.pickImage();
-                              },
-                              child: Container(
-                                  width: 150,
-                                  height: 150,
-                                  child: Image(
-                                      image: AssetImage(
-                                          "assets/images/select.png"))),
-                            );
-                          },
+                        child: Container(
+                          child: SvgPicture.asset(
+                            "assets/images/login.svg",
+                            width: 150,
+                            height: 150,
+                          ),
                         ),
                       ),
                       SizedBox(height: 15),
@@ -211,9 +203,6 @@ class _SignUpViewState extends ViewState<SignUpView, SignUpController> {
                           ),
                         ),
                       ),
-                      SizedBox(
-                        height: 50 + padding.bottom,
-                      )
                     ],
                   );
                 },

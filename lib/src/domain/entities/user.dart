@@ -6,17 +6,15 @@ class User {
   final String firstName;
   final String lastName;
   final String email;
-  final String password;
   final String phoneNumber;
   final String imageUrl;
-  final List<Contact> contacts;
+  final List<Contact>? contacts;
 
   User(
     this.uid,
     this.firstName,
     this.lastName,
     this.email,
-    this.password,
     this.phoneNumber,
     this.imageUrl,
     this.contacts,
@@ -28,10 +26,11 @@ class User {
             json['firstName'] == null ? '' : json['firstName'] as String,
         lastName = json['lastName'] == null ? '' : json['lastName'] as String,
         email = json['email'] == null ? '' : json['email'] as String,
-        password = json['password'] == null ? '' : json['password'] as String,
         phoneNumber =
             json['phoneNumber'] == null ? '' : json['phoneNumber'] as String,
         imageUrl = json['imageUrl'] == null ? '' : json['imageUrl'] as String,
-        contacts = List<Contact>.from(
-            json['contacts'].map((contact) => Contact.fromJson(contact)));
+        contacts = json['Contacts'] == null || json['Contacts'].length == 0
+            ? <Contact>[]
+            : List.from(
+                json['Contacts'].map((contact) => Contact.fromJson(contact)));
 }

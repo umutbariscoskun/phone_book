@@ -33,14 +33,8 @@ class SignUpPresenter extends Presenter {
     _uploadProfileImageToStorage.dispose();
   }
 
-  void createUser(
-    String firstname,
-    String lastName,
-    String email,
-    String password,
-    String phoneNumber,
-    String imageUrl,
-  ) {
+  void createUser(String firstname, String lastName, String email,
+      String phoneNumber, String imageUrl, String password) {
     _createUser.execute(
         _CreateUserObserver(this),
         CreateUserParams(

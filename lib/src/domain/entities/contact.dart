@@ -8,12 +8,21 @@ class Contact {
   final String password;
   final String phoneNumber;
   final String imageUrl;
+  bool isFavorited;
 
-  Contact(this.id, this.firstName, this.lastName, this.imageUrl, this.email,
-      this.phoneNumber, this.password);
+  Contact(
+      {required this.id,
+      required this.firstName,
+      required this.lastName,
+      required this.imageUrl,
+      required this.email,
+      required this.phoneNumber,
+      required this.password,
+      this.isFavorited = false});
 
-  Contact.fromJson(DocumentSnapshot<Map<String, dynamic>> json)
-      : id = json.id,
+  Contact.fromJson(
+    DocumentSnapshot<Map<String, dynamic>> json,
+  )   : id = json.id,
         firstName =
             json['firstName'] == null ? '' : json['firstName'] as String,
         lastName = json['lastName'] == null ? '' : json['lastName'] as String,
@@ -21,5 +30,6 @@ class Contact {
         password = json['password'] == null ? '' : json['password'] as String,
         phoneNumber =
             json['phoneNumber'] == null ? '' : json['phoneNumber'] as String,
-        imageUrl = json['imageUrl'] == null ? '' : json['imageUrl'] as String;
+        imageUrl = json['imageUrl'] == null ? '' : json['imageUrl'] as String,
+        isFavorited = json['isFavorited'];
 }
