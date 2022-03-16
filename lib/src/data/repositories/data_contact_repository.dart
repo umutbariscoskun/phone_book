@@ -1,11 +1,94 @@
+import 'dart:async';
+
 import 'package:phone_book/src/domain/entities/contact.dart';
 import 'package:phone_book/src/domain/repositories/contact_repository.dart';
 
 class DataContactRepository implements ContactRepository {
+  static final _instance = DataContactRepository._internal();
+  DataContactRepository._internal();
+  factory DataContactRepository() => _instance;
+
+  StreamController<List<Contact>> _streamController =
+      StreamController.broadcast();
+
+  List<Contact> _contacts = [
+    Contact(
+      id: "1",
+      firstName: "afirstName",
+      lastName: "lastName",
+      imageUrl: "https://randomuser.me/api/portraits/women/59.jpg",
+      email: "email@gmail.com",
+      phoneNumber: "phoneNumber",
+    ),
+    Contact(
+      id: "1",
+      firstName: "afirstName",
+      lastName: "lastName",
+      imageUrl: "https://randomuser.me/api/portraits/women/59.jpg",
+      email: "email@gmail.com",
+      phoneNumber: "phoneNumber",
+    ),
+    Contact(
+      id: "1",
+      firstName: "afirstName",
+      lastName: "lastName",
+      imageUrl: "https://randomuser.me/api/portraits/women/59.jpg",
+      email: "email@gmail.com",
+      phoneNumber: "phoneNumber",
+    ),
+    Contact(
+      id: "1",
+      firstName: "bfirstName",
+      lastName: "lastName",
+      imageUrl: "https://randomuser.me/api/portraits/women/59.jpg",
+      email: "email@gmail.com",
+      phoneNumber: "phoneNumber",
+    ),
+    Contact(
+      id: "1",
+      firstName: "bfirstName",
+      lastName: "lastName",
+      imageUrl: "https://randomuser.me/api/portraits/women/59.jpg",
+      email: "email@gmail.com",
+      phoneNumber: "phoneNumber",
+    ),
+    Contact(
+      id: "1",
+      firstName: "dfirstName",
+      lastName: "lastName",
+      imageUrl: "https://randomuser.me/api/portraits/women/59.jpg",
+      email: "email@gmail.com",
+      phoneNumber: "phoneNumber",
+    ),
+    Contact(
+      id: "1",
+      firstName: "gfirstName",
+      lastName: "lastName",
+      imageUrl: "https://randomuser.me/api/portraits/women/59.jpg",
+      email: "email@gmail.com",
+      phoneNumber: "phoneNumber",
+    ),
+    Contact(
+      id: "1",
+      firstName: "yfirstName",
+      lastName: "lastName",
+      imageUrl: "https://randomuser.me/api/portraits/women/59.jpg",
+      email: "email@gmail.com",
+      phoneNumber: "phoneNumber",
+    ),
+  ];
+
   @override
-  Future<void> addContact(String uid, Contact contact) {
-    // TODO: implement addContact
-    throw UnimplementedError();
+  Future<void> addContact(String uid, Contact contact) async {
+    try {
+      _contacts.add(contact);
+
+      _streamController.add(_contacts);
+    } catch (e, st) {
+      print(e);
+      print(st);
+      rethrow;
+    }
   }
 
   @override
@@ -15,8 +98,16 @@ class DataContactRepository implements ContactRepository {
   }
 
   @override
-  // TODO: implement contacts
-  Stream<List<Contact>> get contacts => throw UnimplementedError();
+  Stream<List<Contact>> get contacts {
+    try {
+      _initContacts();
+      return _streamController.stream;
+    } catch (e, st) {
+      print(e);
+      print(st);
+      rethrow;
+    }
+  }
 
   @override
   Future<void> removeContact(String uid, String contactId) {
@@ -40,5 +131,17 @@ class DataContactRepository implements ContactRepository {
   Future<void> updateContact(String uid, Contact contact) {
     // TODO: implement updateContact
     throw UnimplementedError();
+  }
+
+  void _initContacts() async {
+    try {
+      Future.delayed(Duration.zero).then(
+        (_) => _streamController.add(_contacts),
+      );
+    } catch (e, st) {
+      print(e);
+      print(st);
+      rethrow;
+    }
   }
 }

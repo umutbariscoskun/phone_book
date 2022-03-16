@@ -5,7 +5,6 @@ class Contact {
   final String firstName;
   final String lastName;
   final String email;
-  final String password;
   final String phoneNumber;
   final String imageUrl;
   bool isFavorited;
@@ -17,7 +16,6 @@ class Contact {
       required this.imageUrl,
       required this.email,
       required this.phoneNumber,
-      required this.password,
       this.isFavorited = false});
 
   Contact.fromJson(
@@ -27,7 +25,6 @@ class Contact {
             json['firstName'] == null ? '' : json['firstName'] as String,
         lastName = json['lastName'] == null ? '' : json['lastName'] as String,
         email = json['email'] == null ? '' : json['email'] as String,
-        password = json['password'] == null ? '' : json['password'] as String,
         phoneNumber =
             json['phoneNumber'] == null ? '' : json['phoneNumber'] as String,
         imageUrl = json['imageUrl'] == null ? '' : json['imageUrl'] as String,
