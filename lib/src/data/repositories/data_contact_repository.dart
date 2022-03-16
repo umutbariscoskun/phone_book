@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:phone_book/src/data/helpers/upload_helper.dart';
 import 'package:phone_book/src/domain/entities/contact.dart';
 import 'package:phone_book/src/domain/repositories/contact_repository.dart';
@@ -7,83 +8,29 @@ import 'package:phone_book/src/domain/types/enums/storage_bucket_type.dart';
 
 class DataContactRepository implements ContactRepository {
   static final _instance = DataContactRepository._internal();
-  DataContactRepository._internal();
+  DataContactRepository._internal() : _firestore = FirebaseFirestore.instance;
   factory DataContactRepository() => _instance;
+
+  final FirebaseFirestore _firestore;
 
   StreamController<List<Contact>> _streamController =
       StreamController.broadcast();
 
-  List<Contact> _contacts = [
-    Contact(
-      id: "1",
-      firstName: "afirstName",
-      lastName: "lastName",
-      imageUrl: "https://randomuser.me/api/portraits/women/59.jpg",
-      email: "email@gmail.com",
-      phoneNumber: "phoneNumber",
-    ),
-    Contact(
-      id: "1",
-      firstName: "afirstName",
-      lastName: "lastName",
-      imageUrl: "https://randomuser.me/api/portraits/women/59.jpg",
-      email: "email@gmail.com",
-      phoneNumber: "phoneNumber",
-    ),
-    Contact(
-      id: "1",
-      firstName: "afirstName",
-      lastName: "lastName",
-      imageUrl: "https://randomuser.me/api/portraits/women/59.jpg",
-      email: "email@gmail.com",
-      phoneNumber: "phoneNumber",
-    ),
-    Contact(
-      id: "1",
-      firstName: "bfirstName",
-      lastName: "lastName",
-      imageUrl: "https://randomuser.me/api/portraits/women/59.jpg",
-      email: "email@gmail.com",
-      phoneNumber: "phoneNumber",
-    ),
-    Contact(
-      id: "1",
-      firstName: "bfirstName",
-      lastName: "lastName",
-      imageUrl: "https://randomuser.me/api/portraits/women/59.jpg",
-      email: "email@gmail.com",
-      phoneNumber: "phoneNumber",
-    ),
-    Contact(
-      id: "1",
-      firstName: "dfirstName",
-      lastName: "lastName",
-      imageUrl: "https://randomuser.me/api/portraits/women/59.jpg",
-      email: "email@gmail.com",
-      phoneNumber: "phoneNumber",
-    ),
-    Contact(
-      id: "1",
-      firstName: "gfirstName",
-      lastName: "lastName",
-      imageUrl: "https://randomuser.me/api/portraits/women/59.jpg",
-      email: "email@gmail.com",
-      phoneNumber: "phoneNumber",
-    ),
-    Contact(
-      id: "1",
-      firstName: "yfirstName",
-      lastName: "lastName",
-      imageUrl: "https://randomuser.me/api/portraits/women/59.jpg",
-      email: "email@gmail.com",
-      phoneNumber: "phoneNumber",
-    ),
-  ];
+  bool _isContactsFetched = false;
+
+  List<Contact> _contacts = [];
 
   @override
   Future<void> addContact(String uid, Contact contact) async {
     try {
+      _contacts.clear();
       _contacts.add(contact);
+
+      await _firestore
+          .collection("Users")
+          .doc(uid)
+          .collection("Contacts")
+          .add(contact.toJson());
 
       _streamController.add(_contacts);
     } catch (e, st) {
@@ -100,9 +47,9 @@ class DataContactRepository implements ContactRepository {
   }
 
   @override
-  Stream<List<Contact>> get contacts {
+  Stream<List<Contact>> getContacts(String uid) {
     try {
-      _initContacts();
+      _initContacts(uid);
       return _streamController.stream;
     } catch (e, st) {
       print(e);
@@ -135,11 +82,29 @@ class DataContactRepository implements ContactRepository {
     throw UnimplementedError();
   }
 
-  void _initContacts() async {
+  void _initContacts(String uid) async {
     try {
-      Future.delayed(Duration.zero).then(
-        (_) => _streamController.add(_contacts),
-      );
+      if (_isContactsFetched) return;
+      QuerySnapshot<Map<String, dynamic>> snapshot = await _firestore
+          .collection("Users")
+          .doc(uid)
+          .collection("Contacts")
+          .get();
+
+      if (snapshot.docs.isNotEmpty) {
+        List<Contact> contacts = [];
+
+        snapshot.docs.forEach((doc) {
+          contacts.add(Contact.fromJson(doc));
+        });
+
+        contacts.sort((a, b) => a.firstName.compareTo(b.lastName));
+        _contacts = contacts;
+        Future.delayed(Duration.zero).then(
+          (_) => _streamController.add(_contacts),
+        );
+      }
+      _isContactsFetched = true;
     } catch (e, st) {
       print(e);
       print(st);

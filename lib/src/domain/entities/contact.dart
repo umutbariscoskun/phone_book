@@ -29,4 +29,15 @@ class Contact {
             json['phoneNumber'] == null ? '' : json['phoneNumber'] as String,
         imageUrl = json['imageUrl'] == null ? '' : json['imageUrl'] as String,
         isFavorited = json['isFavorited'];
+
+  Map<String, dynamic> toJson() {
+    return {
+      "firstName": firstName,
+      "lastName": lastName,
+      "email": email,
+      "phoneNumber": phoneNumber,
+      "imageUrl": imageUrl,
+      "isFavorited": false,
+    };
+  }
 }

@@ -24,7 +24,7 @@ class HomePresenter extends Presenter {
   HomePresenter(
     ContactRepository _contactRepository,
     UserRepository _userRepository,
-  )   : _getContacts = GetContacts(_contactRepository),
+  )   : _getContacts = GetContacts(_contactRepository, _userRepository),
         _getCurrentUser = GetCurrentUser(_userRepository),
         _searchContact = SearchContact(_contactRepository);
 
