@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:phone_book/src/app/constants.dart';
 import 'package:phone_book/src/app/pages/add_contact/add_contact_view.dart';
+import 'package:phone_book/src/app/pages/contact_detail/contact_detail_view.dart';
 import 'package:phone_book/src/app/pages/home/home_controller.dart';
 import 'package:phone_book/src/app/texts.dart';
 import 'package:phone_book/src/app/widgets/default_progress_indicator.dart';
@@ -243,45 +244,70 @@ class _ContactCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 18),
-      width: size.width,
-      height: 75,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Row(
+    return Stack(
+      children: [
+        Container(
+          margin: EdgeInsets.symmetric(horizontal: 18),
+          width: size.width,
+          height: 75,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              ClipOval(
-                child: Image.network(
-                  contact.imageUrl,
-                  width: 45,
-                  height: 45,
-                  fit: BoxFit.cover,
-                ),
-              ),
-              SizedBox(width: defaultSizedBoxPadding),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
+              Row(
                 children: [
-                  Text('${contact.firstName} ${contact.lastName}',
-                      style: kContentStyleBold(kBlack)),
-                  Text(
-                    contact.phoneNumber,
-                    style: kContentStyleThin(kBlack.withOpacity(0.5)),
+                  ClipOval(
+                    child: Image.network(
+                      contact.imageUrl,
+                      width: 45,
+                      height: 45,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  SizedBox(width: defaultSizedBoxPadding),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text('${contact.firstName} ${contact.lastName}',
+                          style: kContentStyleBold(kBlack)),
+                      Text(
+                        contact.phoneNumber,
+                        style: kContentStyleThin(kBlack.withOpacity(0.5)),
+                      ),
+                    ],
                   ),
                 ],
               ),
+              Icon(
+                Icons.arrow_forward_ios,
+                color: kBlack,
+                size: 18,
+              ),
             ],
           ),
-          Icon(
-            Icons.arrow_forward_ios,
-            color: kBlack,
-            size: 18,
-          )
-        ],
-      ),
+        ),
+        Container(
+          alignment: Alignment.center,
+          width: size.width,
+          height: 75,
+          child: TextButton(
+            style: ButtonStyle(
+              overlayColor: MaterialStateColor.resolveWith(
+                (_) => kPrimaryColor.withOpacity(0.5),
+              ),
+            ),
+            child: Container(),
+            onPressed: () {
+              Navigator.push(
+                context,
+                CupertinoPageRoute(
+                  builder: (context) => ContactDetailView(contact),
+                ),
+              );
+            },
+          ),
+        ),
+      ],
     );
   }
 }
