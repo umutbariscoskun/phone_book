@@ -26,8 +26,8 @@ class SignInController extends Controller {
           builder: (context) => SplashView(),
         ),
       );
-      kShowBanner(
-          BannerType.SUCCESS, PhoneBookTexts.someThingWentWrong, getContext());
+      kShowBanner(BannerType.SUCCESS, PhoneBookTexts.signedInSuccessfully,
+          getContext());
     };
 
     _presenter.signInOnError = (e) {

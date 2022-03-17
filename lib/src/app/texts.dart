@@ -10,6 +10,7 @@ class PhoneBookTexts {
   static String get whatsApp => 'WhatsApp';
   static String get email => 'Email';
   static String get telegram => 'Telegram';
+  static String get myProfile => 'My Profile';
 
   static String get update => 'Update';
   static String get editContact => 'Edit Contact';
@@ -28,4 +29,6 @@ class PhoneBookTexts {
 
   static String get theContactHasBeenSuccessfullyUpdated =>
       'The contact has been successfully updated.';
+
+  static String get signedOutSuccessfully => 'Signed out successfully';
 }

@@ -3,6 +3,7 @@ import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:phone_book/src/app/constants.dart';
 import 'package:phone_book/src/app/pages/profile/profile_controller.dart';
 import 'package:phone_book/src/app/texts.dart';
+import 'package:phone_book/src/data/repositories/data_user_repository.dart';
 import 'package:phone_book/src/domain/entities/user.dart';
 
 class ProfileView extends View {
@@ -11,7 +12,7 @@ class ProfileView extends View {
   ProfileView(this.currentUser);
   @override
   State<StatefulWidget> createState() {
-    return _ProfileViewState(ProfileController());
+    return _ProfileViewState(ProfileController(DataUserRepository()));
   }
 }
 
@@ -72,13 +73,9 @@ class _ProfileAppBar extends StatelessWidget {
               ],
             ),
           ),
-          GestureDetector(
-            behavior: HitTestBehavior.translucent,
-            child: Container(
-              width: 20,
-              height: 20,
-              child: Image(image: AssetImage("assets/images/menu.png")),
-            ),
+          Text(
+            PhoneBookTexts.myProfile,
+            style: kTitleStyle(kBlack),
           ),
         ],
       ),
@@ -110,19 +107,24 @@ class _ProfileDetailContainer extends StatelessWidget {
             ),
           ),
           SizedBox(height: 2 * defaultSizedBoxPadding),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              GestureDetector(
-                behavior: HitTestBehavior.translucent,
-                child: Icon(Icons.edit),
-              ),
-              SizedBox(width: defaultSizedBoxPadding),
-              GestureDetector(
-                behavior: HitTestBehavior.translucent,
-                child: Icon(Icons.exit_to_app_outlined),
-              ),
-            ],
+          ControlledWidgetBuilder<ProfileController>(
+            builder: (context, controller) {
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  GestureDetector(
+                    behavior: HitTestBehavior.translucent,
+                    child: Icon(Icons.edit),
+                  ),
+                  SizedBox(width: defaultSizedBoxPadding),
+                  GestureDetector(
+                    onTap: () => controller.signOut(),
+                    behavior: HitTestBehavior.translucent,
+                    child: Icon(Icons.exit_to_app_outlined),
+                  ),
+                ],
+              );
+            },
           ),
           SizedBox(height: defaultSizedBoxPadding),
           Row(
