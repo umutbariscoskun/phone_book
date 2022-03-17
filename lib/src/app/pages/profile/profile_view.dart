@@ -111,6 +111,21 @@ class _ProfileDetailContainer extends StatelessWidget {
           ),
           SizedBox(height: 2 * defaultSizedBoxPadding),
           Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              GestureDetector(
+                behavior: HitTestBehavior.translucent,
+                child: Icon(Icons.edit),
+              ),
+              SizedBox(width: defaultSizedBoxPadding),
+              GestureDetector(
+                behavior: HitTestBehavior.translucent,
+                child: Icon(Icons.exit_to_app_outlined),
+              ),
+            ],
+          ),
+          SizedBox(height: defaultSizedBoxPadding),
+          Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Row(

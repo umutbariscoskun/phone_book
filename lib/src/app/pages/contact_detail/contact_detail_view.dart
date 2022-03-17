@@ -131,6 +131,26 @@ class _ContactProfileContainer extends StatelessWidget {
             contact.firstName + " " + contact.lastName,
             style: kTitleStyle(kBlack),
           ),
+          SizedBox(height: defaultSizedBoxPadding),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              GestureDetector(
+                behavior: HitTestBehavior.translucent,
+                child: Icon(Icons.edit),
+              ),
+              SizedBox(width: defaultSizedBoxPadding),
+              GestureDetector(
+                behavior: HitTestBehavior.translucent,
+                child: Icon(Icons.delete),
+              ),
+              SizedBox(width: defaultSizedBoxPadding),
+              GestureDetector(
+                behavior: HitTestBehavior.translucent,
+                child: Icon(Icons.favorite_border),
+              ),
+            ],
+          ),
           SizedBox(height: 50),
         ],
       ),

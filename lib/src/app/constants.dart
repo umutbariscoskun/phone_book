@@ -13,6 +13,9 @@ const Color kSecondaryGray = Color(0xff211F30);
 const double horizantalPadding = 18;
 const double defaultSizedBoxPadding = 15;
 
+const String profilePhotoPlaceHolder =
+    "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png";
+
 TextStyle kLargeTitleStyle(Color color) {
   return TextStyle(
     color: color,

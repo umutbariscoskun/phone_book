@@ -39,7 +39,7 @@ class _HomeViewState extends ViewState<HomeView, HomeController> {
             ),
           );
         },
-        child: Icon(Icons.add),
+        child: Icon(Icons.person_add_alt),
         backgroundColor: kPrimaryColor,
       ),
       key: globalKey,
@@ -97,7 +97,6 @@ class _HomeViewState extends ViewState<HomeView, HomeController> {
                     : Center(
                         child: Lottie.asset(
                           'assets/animations/empty.json',
-                          repeat: false,
                         ),
                       ),
               ),
@@ -277,12 +276,19 @@ class _ContactCard extends StatelessWidget {
               Row(
                 children: [
                   ClipOval(
-                    child: Image.network(
-                      contact.imageUrl,
-                      width: 45,
-                      height: 45,
-                      fit: BoxFit.cover,
-                    ),
+                    child: contact.imageUrl.isNotEmpty
+                        ? Image.network(
+                            contact.imageUrl,
+                            width: 45,
+                            height: 45,
+                            fit: BoxFit.cover,
+                          )
+                        : Image.network(
+                            profilePhotoPlaceHolder,
+                            width: 45,
+                            height: 45,
+                            fit: BoxFit.cover,
+                          ),
                   ),
                   SizedBox(width: defaultSizedBoxPadding),
                   Column(

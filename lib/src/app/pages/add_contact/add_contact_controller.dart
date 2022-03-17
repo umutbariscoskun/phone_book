@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:phone_book/src/app/constants.dart';
 import 'package:phone_book/src/app/pages/add_contact/add_contact_presenter.dart';
 import 'package:phone_book/src/domain/entities/contact.dart';
 import 'package:phone_book/src/domain/repositories/contact_repository.dart';
@@ -67,7 +68,7 @@ class AddContactController extends Controller {
       id: DateTime.now().millisecondsSinceEpoch.toString(),
       firstName: firstName!,
       lastName: lastName!,
-      imageUrl: downloadUrl!,
+      imageUrl: downloadUrl != null ? downloadUrl! : profilePhotoPlaceHolder,
       email: email!,
       phoneNumber: phoneNumber!,
     );
