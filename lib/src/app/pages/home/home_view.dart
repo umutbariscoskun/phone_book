@@ -95,7 +95,10 @@ class _HomeViewState extends ViewState<HomeView, HomeController> {
                         ),
                       )
                     : Center(
-                        child: Lottie.asset('assets/animations/empty.json'),
+                        child: Lottie.asset(
+                          'assets/animations/empty.json',
+                          repeat: false,
+                        ),
                       ),
               ),
             ],
