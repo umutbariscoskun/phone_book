@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
+import 'package:lottie/lottie.dart';
 import 'package:phone_book/src/app/constants.dart';
 import 'package:phone_book/src/app/pages/add_contact/add_contact_view.dart';
 import 'package:phone_book/src/app/pages/contact_detail/contact_detail_view.dart';
@@ -47,48 +48,55 @@ class _HomeViewState extends ViewState<HomeView, HomeController> {
         builder: (context, controller) {
           return Column(
             children: [
+              controller.currentUser != null
+                  ? _CurrentUserAppBar(controller.currentUser!)
+                  : Container(),
               Expanded(
-                child: SingleChildScrollView(
-                  physics: AlwaysScrollableScrollPhysics(
-                      parent: BouncingScrollPhysics()),
-                  child: Column(
-                    children: [
-                      controller.currentUser != null
-                          ? _CurrentUserAppBar(controller.currentUser!)
-                          : Center(
-                              child: DefaultProgressIndicator(),
+                child: controller.contacts != null &&
+                        controller.contacts!.isNotEmpty
+                    ? SingleChildScrollView(
+                        physics: AlwaysScrollableScrollPhysics(
+                            parent: BouncingScrollPhysics()),
+                        child: Column(
+                          children: [
+                            _SearchBar(
+                              onSubmit: controller.onSearchValueSubmit,
+                              text: null,
+                              editingController: controller.editingController,
+                              refreshUi: controller.refreshScreen,
                             ),
-                      _SearchBar(
-                        onSubmit: controller.onSearchValueSubmit,
-                        text: null,
-                        editingController: controller.editingController,
-                        refreshUi: controller.refreshScreen,
-                      ),
-                      for (var entry in controller.groupedLists.entries)
-                        SizedBox(
-                          width: size.width,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                  margin: EdgeInsets.symmetric(horizontal: 18),
-                                  child: Text(
-                                    entry.key.toUpperCase(),
-                                    style: kContentStyleBold(kPrimaryColor),
-                                  )),
-                              Container(
-                                  child: Column(
-                                children: [
-                                  for (var i = 0; i < entry.value.length; i++)
-                                    _ContactCard(entry.value[i])
-                                ],
-                              )),
-                            ],
-                          ),
+                            for (var entry in controller.groupedLists.entries)
+                              SizedBox(
+                                width: size.width,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                        margin: EdgeInsets.symmetric(
+                                            horizontal: 18),
+                                        child: Text(
+                                          entry.key.toUpperCase(),
+                                          style:
+                                              kContentStyleBold(kPrimaryColor),
+                                        )),
+                                    Container(
+                                        child: Column(
+                                      children: [
+                                        for (var i = 0;
+                                            i < entry.value.length;
+                                            i++)
+                                          _ContactCard(entry.value[i])
+                                      ],
+                                    )),
+                                  ],
+                                ),
+                              ),
+                          ],
                         ),
-                    ],
-                  ),
-                ),
+                      )
+                    : Center(
+                        child: Lottie.asset('assets/animations/empty.json'),
+                      ),
               ),
             ],
           );
