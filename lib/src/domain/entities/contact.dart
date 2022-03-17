@@ -2,11 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Contact {
   final String id;
-  final String firstName;
-  final String lastName;
-  final String email;
-  final String phoneNumber;
-  final String imageUrl;
+  String firstName;
+  String lastName;
+  String email;
+  String phoneNumber;
+  String imageUrl;
   bool isFavorited;
 
   Contact(

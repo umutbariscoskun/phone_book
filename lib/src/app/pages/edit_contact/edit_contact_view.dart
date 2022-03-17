@@ -17,6 +17,7 @@ class EditContactView extends View {
     return _EditContactViewState(EditContactController(
       DataContactRepository(),
       DataUserRepository(),
+      contact,
     ));
   }
 }
@@ -35,7 +36,7 @@ class _EditContactViewState
       body: Column(
         children: [
           SizedBox(height: defaultSizedBoxPadding),
-          _EditContactAppBar(widget.contact),
+          _EditContactAppBar(),
           Expanded(
             child: SingleChildScrollView(
               physics: AlwaysScrollableScrollPhysics(
@@ -165,7 +166,9 @@ class _EditContactViewState
                         Container(
                           margin: EdgeInsets.symmetric(horizontal: 100),
                           child: DefaultButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              controller.updateContactInformation();
+                            },
                             text: PhoneBookTexts.update,
                             color: kPrimaryColor,
                           ),
@@ -184,8 +187,6 @@ class _EditContactViewState
 }
 
 class _EditContactAppBar extends StatelessWidget {
-  final Contact contact;
-  _EditContactAppBar(this.contact);
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -212,17 +213,6 @@ class _EditContactAppBar extends StatelessWidget {
                   style: kTitleStyle(kBlack),
                 ),
               ],
-            ),
-          ),
-          Center(
-            child: Container(
-              width: 150,
-              child: Text(
-                contact.firstName + " " + contact.lastName,
-                style: kTitleStyle(kBlack),
-                overflow: TextOverflow.ellipsis,
-                maxLines: 1,
-              ),
             ),
           ),
         ],

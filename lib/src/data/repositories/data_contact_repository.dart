@@ -95,9 +95,37 @@ class DataContactRepository implements ContactRepository {
   }
 
   @override
-  Future<void> updateContactInformation(String uid, Contact contact) {
-    // TODO: implement updateContact
-    throw UnimplementedError();
+  Future<void> updateContactInformation(
+      String uid, Contact editedContact) async {
+    try {
+      final CollectionReference collectionReference =
+          _firestore.collection("Users").doc(uid).collection("Contacts");
+
+      collectionReference.doc(editedContact.id).update({
+        'firstName': editedContact.firstName,
+        'lastName': editedContact.lastName,
+        'imageUrl': editedContact.imageUrl,
+        'email': editedContact.email,
+        'phoneNumber': editedContact.phoneNumber,
+        'isFavorited': editedContact.isFavorited,
+      });
+
+      int index =
+          _contacts.indexWhere((contact) => contact.id == editedContact.id);
+      _contacts[index].firstName = editedContact.firstName;
+      _contacts[index].lastName = editedContact.lastName;
+      _contacts[index].imageUrl = editedContact.imageUrl;
+      _contacts[index].email = editedContact.email;
+      _contacts[index].phoneNumber = editedContact.phoneNumber;
+      _contacts[index].isFavorited = editedContact.isFavorited;
+
+      Future.delayed(Duration.zero)
+          .then((value) => _streamController.add(_contacts));
+    } catch (e, st) {
+      print(e);
+      print(st);
+      rethrow;
+    }
   }
 
   void _initContacts(String uid) async {
