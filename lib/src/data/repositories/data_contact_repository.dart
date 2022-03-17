@@ -29,10 +29,8 @@ class DataContactRepository implements ContactRepository {
           .collection("Contacts")
           .add(contact.toJson());
 
-      if (_isContactsFetched) {
-        _contacts.add(contact);
-        _streamController.add(_contacts);
-      }
+      _contacts.add(contact);
+      _streamController.add(_contacts);
     } catch (e, st) {
       print(e);
       print(st);
@@ -70,11 +68,9 @@ class DataContactRepository implements ContactRepository {
 
       await collectionReference.doc(contactId).delete();
 
-      if (_isContactsFetched) {
-        _contacts.removeWhere((element) => element.id == contactId);
+      _contacts.removeWhere((element) => element.id == contactId);
 
-        _streamController.add(_contacts);
-      }
+      _streamController.add(_contacts);
     } catch (e, st) {
       print(e);
       print(st);

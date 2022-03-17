@@ -95,11 +95,26 @@ class _HomeViewState extends ViewState<HomeView, HomeController> {
                         ),
                       )
                     : Center(
-                        child: Container(
-                          width: size.width - 40,
-                          child: Lottie.asset(
-                            'assets/animations/empty.json',
-                          ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              width: size.width - 40,
+                              child: Lottie.asset(
+                                'assets/animations/empty.json',
+                              ),
+                            ),
+                            SizedBox(height: defaultSizedBoxPadding),
+                            Container(
+                              width: size.width - 80,
+                              child: Text(
+                                PhoneBookTexts.emptyContacts,
+                                textAlign: TextAlign.center,
+                                style:
+                                    kContentStyleThin(kBlack.withOpacity(0.5)),
+                              ),
+                            )
+                          ],
                         ),
                       ),
               ),

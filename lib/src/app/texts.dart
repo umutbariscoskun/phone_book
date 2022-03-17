@@ -15,6 +15,8 @@ class PhoneBookTexts {
       'Tap to image for changing your profile photo';
   static String get tapToForContactImage =>
       'Tap to image for changing contact photo';
+  static String get emptyContacts =>
+      'You dont have any contact, You can start with add contact!';
 
   static String get update => 'Update';
   static String get editContact => 'Edit Contact';
