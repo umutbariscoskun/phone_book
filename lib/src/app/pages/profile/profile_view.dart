@@ -1,6 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:phone_book/src/app/constants.dart';
+import 'package:phone_book/src/app/pages/edit_profile/edit_profile_view.dart';
 import 'package:phone_book/src/app/pages/profile/profile_controller.dart';
 import 'package:phone_book/src/app/texts.dart';
 import 'package:phone_book/src/data/repositories/data_user_repository.dart';
@@ -106,13 +108,24 @@ class _ProfileDetailContainer extends StatelessWidget {
               fit: BoxFit.cover,
             ),
           ),
-          SizedBox(height: 2 * defaultSizedBoxPadding),
+          SizedBox(height: defaultSizedBoxPadding),
+          Text(
+            currentUser.firstName + " " + currentUser.lastName,
+            style: kTitleStyle(kBlack),
+          ),
+          SizedBox(height: defaultSizedBoxPadding),
           ControlledWidgetBuilder<ProfileController>(
             builder: (context, controller) {
               return Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   GestureDetector(
+                    onTap: () => Navigator.push(
+                      context,
+                      CupertinoPageRoute(
+                        builder: (context) => EditProfileView(currentUser),
+                      ),
+                    ),
                     behavior: HitTestBehavior.translucent,
                     child: Icon(Icons.edit),
                   ),

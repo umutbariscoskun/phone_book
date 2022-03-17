@@ -3,12 +3,11 @@ import 'package:phone_book/src/domain/entities/contact.dart';
 
 class User {
   final String uid;
-  final String firstName;
-  final String lastName;
-  final String email;
-  final String phoneNumber;
-  final String imageUrl;
-  final List<Contact>? contacts;
+  String firstName;
+  String lastName;
+  String email;
+  String phoneNumber;
+  String imageUrl;
 
   User(
     this.uid,
@@ -17,7 +16,6 @@ class User {
     this.email,
     this.phoneNumber,
     this.imageUrl,
-    this.contacts,
   );
 
   User.fromJson(DocumentSnapshot<Map<String, dynamic>> json)
@@ -28,9 +26,5 @@ class User {
         email = json['email'] == null ? '' : json['email'] as String,
         phoneNumber =
             json['phoneNumber'] == null ? '' : json['phoneNumber'] as String,
-        imageUrl = json['imageUrl'] == null ? '' : json['imageUrl'] as String,
-        contacts = json['Contacts'] == null || json['Contacts'].length == 0
-            ? <Contact>[]
-            : List.from(
-                json['Contacts'].map((contact) => Contact.fromJson(contact)));
+        imageUrl = json['imageUrl'] == null ? '' : json['imageUrl'] as String;
 }

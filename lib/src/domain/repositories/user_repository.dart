@@ -9,4 +9,5 @@ abstract class UserRepository {
   Future<void> signOut();
   Future<String> uploadProfileImageToStorage(
       String imagePath, String imageName, StorageBucketType storageType);
+  Future<void> updateUserInformation(String uid, User user);
 }

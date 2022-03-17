@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:phone_book/src/data/helpers/upload_helper.dart';
-import 'package:phone_book/src/domain/entities/contact.dart';
 import 'package:phone_book/src/domain/entities/user.dart' as ent;
 import 'package:phone_book/src/domain/repositories/user_repository.dart';
 import 'package:phone_book/src/domain/types/enums/storage_bucket_type.dart';
@@ -40,7 +39,6 @@ class DataUserRepository implements UserRepository {
           'phoneNumber': phoneNumber,
           'imageUrl':
               "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png",
-          'Contacts': <Contact>[],
         },
       );
     } catch (e, st) {
@@ -51,31 +49,81 @@ class DataUserRepository implements UserRepository {
 
   @override
   Future<ent.User> getCurrentUser() async {
-    String uid = _auth.currentUser!.uid;
-    print('Authenticated Uid: ' + uid);
+    try {
+      String uid = _auth.currentUser!.uid;
+      print('Authenticated Uid: ' + uid);
 
-    _documentSnapshot = await _firestore.collection('Users').doc(uid).get();
+      _documentSnapshot = await _firestore.collection('Users').doc(uid).get();
 
-    currentUser = ent.User.fromJson(_documentSnapshot);
+      currentUser = ent.User.fromJson(_documentSnapshot);
 
-    return currentUser;
+      return currentUser;
+    } catch (e, st) {
+      print(e);
+      print(st);
+      rethrow;
+    }
   }
 
   @override
   Future<void> signIn(String email, String password) async {
-    await _auth.signInWithEmailAndPassword(email: email, password: password);
+    try {
+      await _auth.signInWithEmailAndPassword(email: email, password: password);
+    } catch (e, st) {
+      print(e);
+      print(st);
+      rethrow;
+    }
   }
 
   @override
   Future<void> signOut() async {
-    await _auth.signOut();
+    try {
+      await _auth.signOut();
+    } catch (e, st) {
+      print(e);
+      print(st);
+      rethrow;
+    }
   }
 
   @override
   Future<String> uploadProfileImageToStorage(
       String imagePath, String imageName, StorageBucketType storageType) async {
-    String url = await UploadHelper()
-        .uploadImageToStorage(imagePath, imageName, storageType);
-    return url;
+    try {
+      String url = await UploadHelper()
+          .uploadImageToStorage(imagePath, imageName, storageType);
+      return url;
+    } catch (e, st) {
+      print(e);
+      print(st);
+      rethrow;
+    }
+  }
+
+  @override
+  Future<void> updateUserInformation(String uid, ent.User editedUser) async {
+    try {
+      final CollectionReference collectionReference =
+          _firestore.collection("Users");
+
+      collectionReference.doc(uid).update({
+        'firstName': editedUser.firstName,
+        'lastName': editedUser.lastName,
+        'imageUrl': editedUser.imageUrl,
+        'email': editedUser.email,
+        'phoneNumber': editedUser.phoneNumber,
+      });
+
+      currentUser.firstName = editedUser.firstName;
+      currentUser.lastName = editedUser.lastName;
+      currentUser.email = editedUser.email;
+      currentUser.phoneNumber = editedUser.phoneNumber;
+      currentUser.imageUrl = editedUser.imageUrl;
+    } catch (e, st) {
+      print(e);
+      print(st);
+      rethrow;
+    }
   }
 }

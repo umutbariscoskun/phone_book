@@ -91,7 +91,7 @@ class EditContactController extends Controller {
       id: contactFromView.id,
       firstName: firstName != null ? firstName! : contactFromView.firstName,
       lastName: lastName != null ? lastName! : contactFromView.lastName,
-      imageUrl: downloadUrl != null ? downloadUrl! : profilePhotoPlaceHolder,
+      imageUrl: downloadUrl != null ? downloadUrl! : contactFromView.imageUrl,
       email: email != null ? email! : contactFromView.email,
       phoneNumber:
           phoneNumber != null ? phoneNumber! : contactFromView.phoneNumber,

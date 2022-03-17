@@ -11,9 +11,14 @@ class PhoneBookTexts {
   static String get email => 'Email';
   static String get telegram => 'Telegram';
   static String get myProfile => 'My Profile';
+  static String get tapToForProfileImage =>
+      'Tap to image for changing your profile photo';
+  static String get tapToForContactImage =>
+      'Tap to image for changing contact photo';
 
   static String get update => 'Update';
   static String get editContact => 'Edit Contact';
+  static String get editYourProfile => 'Edit Your Profile';
 
 //banner messages
   static String get theContactHasBeenSuccessfullyAdded =>
@@ -29,6 +34,9 @@ class PhoneBookTexts {
 
   static String get theContactHasBeenSuccessfullyUpdated =>
       'The contact has been successfully updated.';
+
+  static String get updateProfileInformation =>
+      'You have successfully updated your user information.';
 
   static String get signedOutSuccessfully => 'Signed out successfully';
 }

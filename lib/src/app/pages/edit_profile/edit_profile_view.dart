@@ -1,28 +1,31 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:phone_book/src/app/constants.dart';
-import 'package:phone_book/src/app/pages/add_contact/add_contact_controller.dart';
+import 'package:phone_book/src/app/pages/edit_profile/edit_profile_controller.dart';
 import 'package:phone_book/src/app/texts.dart';
 import 'package:phone_book/src/app/widgets/default_button.dart';
 import 'package:phone_book/src/data/repositories/data_contact_repository.dart';
 import 'package:phone_book/src/data/repositories/data_user_repository.dart';
+import 'package:phone_book/src/domain/entities/user.dart';
 
-class AddContactView extends View {
+class EditProfileView extends View {
+  final User currentUser;
+  EditProfileView(this.currentUser);
   @override
   State<StatefulWidget> createState() {
-    return _AddContactViewState(AddContactController(
-      DataContactRepository(),
-      DataUserRepository(),
-    ));
+    return _EditProfileViewState(
+      EditProfileController(
+        DataUserRepository(),
+        currentUser,
+      ),
+    );
   }
 }
 
-class _AddContactViewState
-    extends ViewState<AddContactView, AddContactController> {
-  _AddContactViewState(AddContactController controller) : super(controller);
+class _EditProfileViewState
+    extends ViewState<EditProfileView, EditProfileController> {
+  _EditProfileViewState(EditProfileController controller) : super(controller);
 
   @override
   Widget get view {
@@ -39,39 +42,43 @@ class _AddContactViewState
             child: SingleChildScrollView(
               physics: AlwaysScrollableScrollPhysics(
                   parent: BouncingScrollPhysics()),
-              child: ControlledWidgetBuilder<AddContactController>(
+              child: ControlledWidgetBuilder<EditProfileController>(
                 builder: (context, controller) {
                   return Center(
                     child: Column(
                       children: [
-                        SizedBox(height: defaultSizedBoxPadding),
+                        SizedBox(height: padding.top + defaultSizedBoxPadding),
                         GestureDetector(
-                            onTap: () {
-                              controller.pickImage();
-                            },
-                            child: controller.downloadUrl != null
-                                ? ClipOval(
-                                    child: Image.network(
-                                      controller.downloadUrl!,
-                                      width: 100,
-                                      height: 100,
-                                      fit: BoxFit.cover,
-                                    ),
-                                  )
-                                : ClipOval(
-                                    child: Image(
-                                    image:
-                                        AssetImage("assets/images/select.png"),
+                          onTap: () {
+                            controller.pickImage();
+                          },
+                          child: controller.downloadUrl != null
+                              ? ClipOval(
+                                  child: Image.network(
+                                    controller.downloadUrl!,
                                     width: 100,
                                     height: 100,
                                     fit: BoxFit.cover,
-                                  ))),
+                                  ),
+                                )
+                              : ClipOval(
+                                  child: Image.network(
+                                    widget.currentUser.imageUrl,
+                                    width: 100,
+                                    height: 100,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                        ),
                         SizedBox(height: defaultSizedBoxPadding),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(PhoneBookTexts.addContact,
+                            Text(PhoneBookTexts.editYourProfile,
                                 style: kLargeTitleStyle(kBlack)),
+                            Text(PhoneBookTexts.tapToForProfileImage,
+                                style:
+                                    kContentStyleThin(kBlack.withOpacity(0.5))),
                             SizedBox(height: defaultSizedBoxPadding),
                             Container(
                               padding: EdgeInsets.only(left: 15),
@@ -89,7 +96,7 @@ class _AddContactViewState
                                 keyboardType: TextInputType.name,
                                 decoration: InputDecoration(
                                   border: InputBorder.none,
-                                  hintText: 'Firstname',
+                                  hintText: widget.currentUser.firstName,
                                 ),
                               ),
                             ),
@@ -110,28 +117,7 @@ class _AddContactViewState
                                 keyboardType: TextInputType.name,
                                 decoration: InputDecoration(
                                   border: InputBorder.none,
-                                  hintText: 'Lastname',
-                                ),
-                              ),
-                            ),
-                            SizedBox(height: 5),
-                            Container(
-                              padding: EdgeInsets.only(left: 15),
-                              width: size.width - 44,
-                              height: 56,
-                              decoration: BoxDecoration(
-                                border:
-                                    Border.all(color: kBlack.withOpacity(0.3)),
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                              child: TextFormField(
-                                onChanged: (value) =>
-                                    controller.onEmailTextChanged(value),
-                                cursorColor: kPrimaryColor,
-                                keyboardType: TextInputType.emailAddress,
-                                decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                  hintText: 'E-mail',
+                                  hintText: widget.currentUser.lastName,
                                 ),
                               ),
                             ),
@@ -152,7 +138,7 @@ class _AddContactViewState
                                 keyboardType: TextInputType.name,
                                 decoration: InputDecoration(
                                   border: InputBorder.none,
-                                  hintText: 'Phone Number',
+                                  hintText: widget.currentUser.phoneNumber,
                                 ),
                               ),
                             ),
@@ -164,9 +150,9 @@ class _AddContactViewState
                           margin: EdgeInsets.symmetric(horizontal: 100),
                           child: DefaultButton(
                             onPressed: () {
-                              controller.addContact();
+                              controller.updateProfileInformation();
                             },
-                            text: PhoneBookTexts.addContact,
+                            text: PhoneBookTexts.update,
                             color: kPrimaryColor,
                           ),
                         ),

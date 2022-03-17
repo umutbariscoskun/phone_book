@@ -75,6 +75,9 @@ class _EditContactViewState
                           children: [
                             Text(PhoneBookTexts.editContact,
                                 style: kLargeTitleStyle(kBlack)),
+                            Text(PhoneBookTexts.tapToForContactImage,
+                                style:
+                                    kContentStyleThin(kBlack.withOpacity(0.5))),
                             SizedBox(height: defaultSizedBoxPadding),
                             Container(
                               padding: EdgeInsets.only(left: 15),
