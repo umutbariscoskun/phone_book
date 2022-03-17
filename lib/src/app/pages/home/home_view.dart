@@ -5,11 +5,13 @@ import 'package:phone_book/src/app/constants.dart';
 import 'package:phone_book/src/app/pages/add_contact/add_contact_view.dart';
 import 'package:phone_book/src/app/pages/contact_detail/contact_detail_view.dart';
 import 'package:phone_book/src/app/pages/home/home_controller.dart';
+import 'package:phone_book/src/app/pages/profile/profile_view.dart';
 import 'package:phone_book/src/app/texts.dart';
 import 'package:phone_book/src/app/widgets/default_progress_indicator.dart';
 import 'package:phone_book/src/data/repositories/data_contact_repository.dart';
 import 'package:phone_book/src/data/repositories/data_user_repository.dart';
 import 'package:phone_book/src/domain/entities/contact.dart';
+import 'package:phone_book/src/domain/entities/user.dart';
 
 class HomeView extends View {
   @override
@@ -52,7 +54,7 @@ class _HomeViewState extends ViewState<HomeView, HomeController> {
                   child: Column(
                     children: [
                       controller.currentUser != null
-                          ? _CurrentUserAppBar(controller.currentUser!.imageUrl)
+                          ? _CurrentUserAppBar(controller.currentUser!)
                           : Center(
                               child: DefaultProgressIndicator(),
                             ),
@@ -97,9 +99,9 @@ class _HomeViewState extends ViewState<HomeView, HomeController> {
 }
 
 class _CurrentUserAppBar extends StatelessWidget {
-  final String imageUrl;
+  final User currentUser;
 
-  _CurrentUserAppBar(this.imageUrl);
+  _CurrentUserAppBar(this.currentUser);
 
   @override
   Widget build(BuildContext context) {
@@ -125,12 +127,20 @@ class _CurrentUserAppBar extends StatelessWidget {
               ),
             ],
           ),
-          ClipOval(
-            child: Image.network(
-              imageUrl,
-              width: 45,
-              height: 45,
-              fit: BoxFit.cover,
+          GestureDetector(
+            onTap: () => Navigator.push(
+              context,
+              CupertinoPageRoute(
+                builder: (context) => ProfileView(currentUser),
+              ),
+            ),
+            child: ClipOval(
+              child: Image.network(
+                currentUser.imageUrl,
+                width: 45,
+                height: 45,
+                fit: BoxFit.cover,
+              ),
             ),
           ),
         ],
