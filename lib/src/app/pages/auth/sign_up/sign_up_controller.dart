@@ -2,10 +2,13 @@ import 'package:cross_file/cross_file.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:phone_book/src/app/constants.dart';
 import 'package:phone_book/src/app/pages/auth/sign_up/sign_up_presenter.dart';
 import 'package:phone_book/src/app/pages/splash/splash_view.dart';
+import 'package:phone_book/src/app/texts.dart';
 import 'package:phone_book/src/domain/entities/contact.dart';
 import 'package:phone_book/src/domain/repositories/user_repository.dart';
+import 'package:phone_book/src/domain/types/enums/banner_type.dart';
 import 'package:phone_book/src/domain/types/enums/storage_bucket_type.dart';
 
 class SignUpController extends Controller {
@@ -25,10 +28,15 @@ class SignUpController extends Controller {
   void initListeners() {
     _presenter.createUserOnComplete = () {
       _presenter.signIn(email!, password!);
+      kShowBanner(BannerType.SUCCESS, PhoneBookTexts.successfullyRegistered,
+          getContext());
       refreshUI();
     };
 
-    _presenter.createUserOnError = (e) {};
+    _presenter.createUserOnError = (e) {
+      kShowBanner(
+          BannerType.ERROR, PhoneBookTexts.someThingWentWrong, getContext());
+    };
 
     _presenter.signInOnComplete = () {
       Navigator.push(

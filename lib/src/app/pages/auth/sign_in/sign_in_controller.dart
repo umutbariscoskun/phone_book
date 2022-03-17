@@ -1,9 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
+import 'package:phone_book/src/app/constants.dart';
 import 'package:phone_book/src/app/pages/auth/sign_in/sign_in_presenter.dart';
 import 'package:phone_book/src/app/pages/splash/splash_view.dart';
+import 'package:phone_book/src/app/texts.dart';
 import 'package:phone_book/src/domain/entities/contact.dart';
 import 'package:phone_book/src/domain/repositories/user_repository.dart';
+import 'package:phone_book/src/domain/types/enums/banner_type.dart';
 
 class SignInController extends Controller {
   final SignInPresenter _presenter;
@@ -23,9 +26,14 @@ class SignInController extends Controller {
           builder: (context) => SplashView(),
         ),
       );
+      kShowBanner(
+          BannerType.SUCCESS, PhoneBookTexts.someThingWentWrong, getContext());
     };
 
-    _presenter.signInOnError = (e) {};
+    _presenter.signInOnError = (e) {
+      kShowBanner(
+          BannerType.ERROR, PhoneBookTexts.someThingWentWrong, getContext());
+    };
   }
 
   void onEmailTextChanged(String value) {

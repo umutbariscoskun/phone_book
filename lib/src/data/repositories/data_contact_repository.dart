@@ -23,16 +23,16 @@ class DataContactRepository implements ContactRepository {
   @override
   Future<void> addContact(String uid, Contact contact) async {
     try {
-      _contacts.clear();
-      _contacts.add(contact);
-
       await _firestore
           .collection("Users")
           .doc(uid)
           .collection("Contacts")
           .add(contact.toJson());
 
-      _streamController.add(_contacts);
+      if (_isContactsFetched) {
+        _contacts.add(contact);
+        _streamController.add(_contacts);
+      }
     } catch (e, st) {
       print(e);
       print(st);
@@ -49,7 +49,11 @@ class DataContactRepository implements ContactRepository {
   @override
   Stream<List<Contact>> getContacts(String uid) {
     try {
-      _initContacts(uid);
+      if (!_isContactsFetched) _initContacts(uid);
+
+      Future.delayed(Duration.zero)
+          .then((value) => _streamController.add(_contacts));
+
       return _streamController.stream;
     } catch (e, st) {
       print(e);
@@ -59,9 +63,23 @@ class DataContactRepository implements ContactRepository {
   }
 
   @override
-  Future<void> removeContact(String uid, String contactId) {
-    // TODO: implement removeContact
-    throw UnimplementedError();
+  Future<void> removeContact(String uid, String contactId) async {
+    try {
+      final CollectionReference collectionReference =
+          _firestore.collection("Users").doc(uid).collection("Contacts");
+
+      await collectionReference.doc(contactId).delete();
+
+      if (_isContactsFetched) {
+        _contacts.removeWhere((element) => element.id == contactId);
+
+        _streamController.add(_contacts);
+      }
+    } catch (e, st) {
+      print(e);
+      print(st);
+      rethrow;
+    }
   }
 
   @override
@@ -77,7 +95,7 @@ class DataContactRepository implements ContactRepository {
   }
 
   @override
-  Future<void> updateContact(String uid, Contact contact) {
+  Future<void> updateContactInformation(String uid, Contact contact) {
     // TODO: implement updateContact
     throw UnimplementedError();
   }
@@ -98,13 +116,14 @@ class DataContactRepository implements ContactRepository {
           contacts.add(Contact.fromJson(doc));
         });
 
-        contacts.sort((a, b) => a.firstName.compareTo(b.lastName));
+        contacts.sort((a, b) => a.firstName.compareTo(b.firstName));
         _contacts = contacts;
+
         Future.delayed(Duration.zero).then(
           (_) => _streamController.add(_contacts),
         );
+        _isContactsFetched = true;
       }
-      _isContactsFetched = true;
     } catch (e, st) {
       print(e);
       print(st);

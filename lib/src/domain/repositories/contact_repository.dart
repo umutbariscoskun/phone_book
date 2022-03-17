@@ -8,7 +8,7 @@ abstract class ContactRepository {
   Future<void> removeContact(String uid, String contactId);
   Stream<List<Contact>> getContacts(String uid);
   Future<List<Contact>> searchContact(String searchValue);
-  Future<void> updateContact(String uid, Contact contact);
+  Future<void> updateContactInformation(String uid, Contact contact);
   Future<String> uploadContactImageToStorage(
       String imagePath, String imageName, StorageBucketType storageType);
 }

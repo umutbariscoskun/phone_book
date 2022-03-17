@@ -1,9 +1,13 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:phone_book/src/app/constants.dart';
 import 'package:phone_book/src/app/pages/contact_detail/contact_detail_controller.dart';
+import 'package:phone_book/src/app/pages/edit_contact/edit_contact_view.dart';
 import 'package:phone_book/src/app/texts.dart';
 import 'package:phone_book/src/app/widgets/default_progress_indicator.dart';
+import 'package:phone_book/src/data/repositories/data_contact_repository.dart';
+import 'package:phone_book/src/data/repositories/data_user_repository.dart';
 import 'package:phone_book/src/domain/entities/contact.dart';
 
 class ContactDetailView extends View {
@@ -12,7 +16,12 @@ class ContactDetailView extends View {
   ContactDetailView(this.contact);
   @override
   State<StatefulWidget> createState() {
-    return _ContactDetailViewState(ContactDetailController());
+    return _ContactDetailViewState(
+      ContactDetailController(
+        DataContactRepository(),
+        DataUserRepository(),
+      ),
+    );
   }
 }
 
@@ -132,24 +141,35 @@ class _ContactProfileContainer extends StatelessWidget {
             style: kTitleStyle(kBlack),
           ),
           SizedBox(height: defaultSizedBoxPadding),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              GestureDetector(
-                behavior: HitTestBehavior.translucent,
-                child: Icon(Icons.edit),
-              ),
-              SizedBox(width: defaultSizedBoxPadding),
-              GestureDetector(
-                behavior: HitTestBehavior.translucent,
-                child: Icon(Icons.delete),
-              ),
-              SizedBox(width: defaultSizedBoxPadding),
-              GestureDetector(
-                behavior: HitTestBehavior.translucent,
-                child: Icon(Icons.favorite_border),
-              ),
-            ],
+          ControlledWidgetBuilder<ContactDetailController>(
+            builder: (context, controller) {
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  GestureDetector(
+                    onTap: () => Navigator.push(
+                      context,
+                      CupertinoPageRoute(
+                        builder: (context) => EditContactView(contact),
+                      ),
+                    ),
+                    behavior: HitTestBehavior.translucent,
+                    child: Icon(Icons.edit),
+                  ),
+                  SizedBox(width: defaultSizedBoxPadding),
+                  GestureDetector(
+                    onTap: () => controller.removeContact(contact.id),
+                    behavior: HitTestBehavior.translucent,
+                    child: Icon(Icons.delete),
+                  ),
+                  SizedBox(width: defaultSizedBoxPadding),
+                  GestureDetector(
+                    behavior: HitTestBehavior.translucent,
+                    child: Icon(Icons.favorite_border),
+                  ),
+                ],
+              );
+            },
           ),
           SizedBox(height: 50),
         ],

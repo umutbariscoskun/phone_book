@@ -33,6 +33,7 @@ class HomeController extends Controller {
       if (response != null) {
         contacts = response;
 
+        groupedLists.clear();
         contacts!.forEach((contact) {
           if (groupedLists['${contact.firstName[0]}'] == null) {
             groupedLists['${contact.firstName[0]}'] = <Contact>[];

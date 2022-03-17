@@ -3,9 +3,11 @@ import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:phone_book/src/app/constants.dart';
 import 'package:phone_book/src/app/pages/add_contact/add_contact_presenter.dart';
+import 'package:phone_book/src/app/texts.dart';
 import 'package:phone_book/src/domain/entities/contact.dart';
 import 'package:phone_book/src/domain/repositories/contact_repository.dart';
 import 'package:phone_book/src/domain/repositories/user_repository.dart';
+import 'package:phone_book/src/domain/types/enums/banner_type.dart';
 import 'package:phone_book/src/domain/types/enums/storage_bucket_type.dart';
 
 class AddContactController extends Controller {
@@ -28,10 +30,15 @@ class AddContactController extends Controller {
   void initListeners() {
     _presenter.addContactOnComplete = () {
       Navigator.pop(getContext());
+      kShowBanner(BannerType.SUCCESS,
+          PhoneBookTexts.theContactHasBeenSuccessfullyAdded, getContext());
       refreshUI();
     };
 
-    _presenter.addContactOnError = (e) {};
+    _presenter.addContactOnError = (e) {
+      kShowBanner(
+          BannerType.ERROR, PhoneBookTexts.someThingWentWrong, getContext());
+    };
 
     _presenter.uploadContactImageToStorageOnNext = (String? response) {
       if (response != null) {
@@ -40,7 +47,10 @@ class AddContactController extends Controller {
       }
     };
 
-    _presenter.uploadContactImageToStorageOnError = (e) {};
+    _presenter.uploadContactImageToStorageOnError = (e) {
+      kShowBanner(
+          BannerType.ERROR, PhoneBookTexts.someThingWentWrong, getContext());
+    };
   }
 
   void onEmailTextChanged(String value) {
