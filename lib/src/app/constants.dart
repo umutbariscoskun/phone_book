@@ -1,8 +1,11 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:phone_book/src/app/widgets/default_notification_banner.dart';
 import 'package:phone_book/src/domain/types/enums/banner_type.dart';
+
+Future<void> kVibrateLight() async => await HapticFeedback.lightImpact();
 
 const Color kBackGroundColor = Color(0xfff8f8ff);
 const Color kPrimaryColor = Colors.blue;

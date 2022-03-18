@@ -11,4 +11,5 @@ abstract class ContactRepository {
   Future<void> updateContactInformation(String uid, Contact contact);
   Future<String> uploadContactImageToStorage(
       String imagePath, String imageName, StorageBucketType storageType);
+  Stream<List<Contact>> getFavoritedContacts(String uid);
 }

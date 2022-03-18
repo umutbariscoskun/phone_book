@@ -20,6 +20,7 @@ class ContactDetailView extends View {
       ContactDetailController(
         DataContactRepository(),
         DataUserRepository(),
+        contact,
       ),
     );
   }
@@ -164,8 +165,15 @@ class _ContactProfileContainer extends StatelessWidget {
                   ),
                   SizedBox(width: defaultSizedBoxPadding),
                   GestureDetector(
+                    onTap: () =>
+                        controller.toggleContactFavoriteSituation(contact),
                     behavior: HitTestBehavior.translucent,
-                    child: Icon(Icons.favorite_border),
+                    child: !controller.isFavorited
+                        ? Icon(Icons.favorite_border)
+                        : Icon(
+                            Icons.favorite,
+                            color: Colors.red,
+                          ),
                   ),
                 ],
               );

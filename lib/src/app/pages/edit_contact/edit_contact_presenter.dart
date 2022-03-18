@@ -3,7 +3,7 @@ import 'package:phone_book/src/domain/entities/contact.dart';
 import 'package:phone_book/src/domain/repositories/contact_repository.dart';
 import 'package:phone_book/src/domain/repositories/user_repository.dart';
 import 'package:phone_book/src/domain/types/enums/storage_bucket_type.dart';
-import 'package:phone_book/src/domain/usecases/update_contact.dart';
+import 'package:phone_book/src/domain/usecases/update_contact_information.dart';
 import 'package:phone_book/src/domain/usecases/upload_contact_image_to_storage.dart';
 
 class EditContactPresenter extends Presenter {
