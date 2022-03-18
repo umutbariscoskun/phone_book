@@ -12,7 +12,9 @@ class UploadHelper {
 
     String filePath = '$imageName-${DateTime.now().millisecondsSinceEpoch}.png';
 
-    String fullPath = 'contacts/$filePath';
+    String fullPath = storageType == StorageBucketType.CONTACTS
+        ? 'contacts/$filePath'
+        : 'profile_images/$filePath';
 
     Reference fileReference = _firebaseStorage.ref().child(fullPath);
 

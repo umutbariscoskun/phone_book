@@ -43,4 +43,7 @@ class PhoneBookTexts {
       'You have successfully updated your user information.';
 
   static String get signedOutSuccessfully => 'Signed out successfully';
+
+  static String get updatePleaseWait =>
+      'You have successfully update photo please wait';
 }

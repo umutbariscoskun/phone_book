@@ -51,8 +51,8 @@ class EditProfileController extends Controller {
 
     _presenter.uploadProfileImageToStorageOnNext = (String? response) {
       downloadUrl = response;
-      print("next");
-      print(downloadUrl);
+      kShowBanner(
+          BannerType.SUCCESS, PhoneBookTexts.updatePleaseWait, getContext());
       refreshUI();
     };
 

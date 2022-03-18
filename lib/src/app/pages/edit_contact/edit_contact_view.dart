@@ -49,7 +49,7 @@ class _EditContactViewState
                         SizedBox(height: padding.top + defaultSizedBoxPadding),
                         GestureDetector(
                           onTap: () {
-                            controller.pickImage();
+                            controller.onImageGotPressed();
                           },
                           child: controller.downloadUrl != null
                               ? ClipOval(
