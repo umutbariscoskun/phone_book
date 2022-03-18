@@ -8,6 +8,7 @@ import 'package:phone_book/src/app/pages/add_contact/add_contact_controller.dart
 import 'package:phone_book/src/app/texts.dart';
 import 'package:phone_book/src/app/widgets/default_app_bar.dart';
 import 'package:phone_book/src/app/widgets/default_button.dart';
+import 'package:phone_book/src/app/widgets/default_progress_indicator.dart';
 import 'package:phone_book/src/data/repositories/data_contact_repository.dart';
 import 'package:phone_book/src/data/repositories/data_user_repository.dart';
 
@@ -46,26 +47,32 @@ class _AddContactViewState
                       children: [
                         SizedBox(height: defaultSizedBoxPadding),
                         GestureDetector(
-                            onTap: () {
-                              controller.onImageGotPressed();
-                            },
-                            child: controller.downloadUrl != null
-                                ? ClipOval(
-                                    child: Image.network(
-                                      controller.downloadUrl!,
-                                      width: 100,
-                                      height: 100,
-                                      fit: BoxFit.cover,
-                                    ),
-                                  )
-                                : ClipOval(
-                                    child: Image(
-                                    image:
-                                        AssetImage("assets/images/select.png"),
+                          onTap: () {
+                            controller.onImageGotPressed();
+                          },
+                          child: controller.downloadUrl != null
+                              ? ClipOval(
+                                  child: Image.network(
+                                    controller.downloadUrl!,
                                     width: 100,
                                     height: 100,
                                     fit: BoxFit.cover,
-                                  ))),
+                                  ),
+                                )
+                              : !controller.isLoading
+                                  ? ClipOval(
+                                      child: Image(
+                                      image: AssetImage(
+                                          "assets/images/select.png"),
+                                      width: 100,
+                                      height: 100,
+                                      fit: BoxFit.cover,
+                                    ))
+                                  : Container(
+                                      width: 100,
+                                      height: 100,
+                                      child: DefaultProgressIndicator()),
+                        ),
                         SizedBox(height: defaultSizedBoxPadding),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,

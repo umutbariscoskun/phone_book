@@ -32,7 +32,7 @@ class EditContactController extends Controller {
   String? phoneNumber;
 
   XFile? pickedImage;
-
+  bool isLoading = false;
   @override
   void initListeners() {
     _presenter.updateContactInformationOnComplete = () {
@@ -62,6 +62,7 @@ class EditContactController extends Controller {
   }
 
   void onImageGotPressed() async {
+    isLoading = true;
     final ImageSourceType? imageType = await showDialog(
       context: getContext(),
       builder: (context) {
@@ -83,6 +84,7 @@ class EditContactController extends Controller {
       pickedImage!.name,
       StorageBucketType.PROFILE,
     );
+    refreshUI();
   }
 
   void onEmailTextChanged(String value) {

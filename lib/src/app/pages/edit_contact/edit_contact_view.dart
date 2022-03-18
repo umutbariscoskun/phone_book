@@ -5,6 +5,7 @@ import 'package:phone_book/src/app/pages/edit_contact/edit_contact_controller.da
 import 'package:phone_book/src/app/texts.dart';
 import 'package:phone_book/src/app/widgets/default_app_bar.dart';
 import 'package:phone_book/src/app/widgets/default_button.dart';
+import 'package:phone_book/src/app/widgets/default_progress_indicator.dart';
 import 'package:phone_book/src/data/repositories/data_contact_repository.dart';
 import 'package:phone_book/src/data/repositories/data_user_repository.dart';
 import 'package:phone_book/src/domain/entities/contact.dart';
@@ -60,14 +61,19 @@ class _EditContactViewState
                                     fit: BoxFit.cover,
                                   ),
                                 )
-                              : ClipOval(
-                                  child: Image.network(
-                                    widget.contact.imageUrl,
-                                    width: 100,
-                                    height: 100,
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
+                              : !controller.isLoading
+                                  ? ClipOval(
+                                      child: Image.network(
+                                        widget.contact.imageUrl,
+                                        width: 100,
+                                        height: 100,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    )
+                                  : Container(
+                                      width: 100,
+                                      height: 100,
+                                      child: DefaultProgressIndicator()),
                         ),
                         SizedBox(height: defaultSizedBoxPadding),
                         Column(

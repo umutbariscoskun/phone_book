@@ -1,4 +1,5 @@
 class PhoneBookTexts {
+  static String get pickImage => 'pickImage';
   static String get kctek => 'KCTEK';
   static String get myContacts => 'My Contacts';
   static String get searchContact => 'Search Contact';
@@ -49,6 +50,5 @@ class PhoneBookTexts {
 
   static String get signedOutSuccessfully => 'Signed out successfully';
 
-  static String get updatePleaseWait =>
-      'You have successfully update photo please wait';
+  static String get updatePleaseWait => 'You have updated photo successfully';
 }

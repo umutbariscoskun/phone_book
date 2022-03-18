@@ -30,7 +30,7 @@ class EditProfileController extends Controller {
 
   final ImagePicker imagePicker = ImagePicker();
   XFile? pickedImage;
-
+  bool isLoading = false;
   @override
   void initListeners() {
     _presenter.updateUserInformatioOnComplete = () {
@@ -83,6 +83,7 @@ class EditProfileController extends Controller {
   }
 
   void onImageGotPressed() async {
+    isLoading = true;
     final ImageSourceType? imageType = await showDialog(
       context: getContext(),
       builder: (context) {
@@ -94,16 +95,14 @@ class EditProfileController extends Controller {
       pickedImage = await imagePicker.pickImage(source: ImageSource.gallery);
     }
     if (imageType == ImageSourceType.CAMERA) {
-      print("camera1");
-
       pickedImage = await imagePicker.pickImage(source: ImageSource.camera);
-      print(pickedImage!.name.toString());
     }
     _presenter.uploadProfileImageToStorage(
       pickedImage!.path,
       pickedImage!.name,
       StorageBucketType.PROFILE,
     );
+    refreshUI();
   }
 
   void updateProfileInformation() {

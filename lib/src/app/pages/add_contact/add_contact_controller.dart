@@ -26,6 +26,7 @@ class AddContactController extends Controller {
   String? phoneNumber;
 
   String? downloadUrl;
+  bool isLoading = false;
 
   final ImagePicker imagePicker = ImagePicker();
   XFile? pickedImage;
@@ -88,6 +89,7 @@ class AddContactController extends Controller {
   }
 
   void onImageGotPressed() async {
+    isLoading = true;
     final ImageSourceType? imageType = await showDialog(
       context: getContext(),
       builder: (context) {
@@ -109,5 +111,6 @@ class AddContactController extends Controller {
       pickedImage!.name,
       StorageBucketType.PROFILE,
     );
+    refreshUI();
   }
 }

@@ -4,7 +4,6 @@ import 'package:phone_book/src/app/constants.dart';
 import 'package:phone_book/src/app/pages/profile/profile_presenter.dart';
 import 'package:phone_book/src/app/pages/splash/splash_view.dart';
 import 'package:phone_book/src/app/texts.dart';
-import 'package:phone_book/src/domain/entities/contact.dart';
 import 'package:phone_book/src/domain/repositories/contact_repository.dart';
 import 'package:phone_book/src/domain/repositories/user_repository.dart';
 import 'package:phone_book/src/domain/types/enums/banner_type.dart';
