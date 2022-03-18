@@ -217,7 +217,7 @@ class DataContactRepository implements ContactRepository {
       await _firestore.collection("Users").doc(uid).collection("Contacts").add({
         "firstName": firstName,
         "lastName": lastName,
-        "downloadUrl": downloadUrl,
+        "imageUrl": downloadUrl,
         "email": email,
         "phoneNumber": phoneNumber,
         'isFavorited': false,
