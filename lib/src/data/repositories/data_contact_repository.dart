@@ -49,6 +49,8 @@ class DataContactRepository implements ContactRepository {
       await collectionReference.doc(contactId).delete();
 
       _contacts.removeWhere((element) => element.id == contactId);
+      _contacts.sort((a, b) =>
+          a.firstName.toLowerCase().compareTo(b.firstName.toLowerCase()));
 
       _streamController.add(_contacts);
     } catch (e, st) {
@@ -108,7 +110,8 @@ class DataContactRepository implements ContactRepository {
           contacts.add(Contact.fromJson(doc));
         });
 
-        contacts.sort((a, b) => a.firstName.compareTo(b.firstName));
+        contacts.sort((a, b) =>
+            a.firstName.toLowerCase().compareTo(b.firstName.toLowerCase()));
         _contacts = contacts;
 
         Future.delayed(Duration.zero).then(
@@ -231,6 +234,9 @@ class DataContactRepository implements ContactRepository {
       );
 
       _contacts.add(createdContact);
+      _contacts.sort((a, b) =>
+          a.firstName.toLowerCase().compareTo(b.firstName.toLowerCase()));
+
       _streamController.add(_contacts);
     } catch (e, st) {
       print(e);
