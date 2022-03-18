@@ -6,6 +6,7 @@ import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:phone_book/src/app/constants.dart';
 import 'package:phone_book/src/app/pages/add_contact/add_contact_controller.dart';
 import 'package:phone_book/src/app/texts.dart';
+import 'package:phone_book/src/app/widgets/default_app_bar.dart';
 import 'package:phone_book/src/app/widgets/default_button.dart';
 import 'package:phone_book/src/data/repositories/data_contact_repository.dart';
 import 'package:phone_book/src/data/repositories/data_user_repository.dart';
@@ -33,8 +34,7 @@ class _AddContactViewState
       backgroundColor: kWhite,
       body: Column(
         children: [
-          SizedBox(height: defaultSizedBoxPadding),
-          _EditContactAppBar(),
+          DefaultAppBar(null),
           Expanded(
             child: SingleChildScrollView(
               physics: AlwaysScrollableScrollPhysics(
@@ -175,41 +175,6 @@ class _AddContactViewState
                   );
                 },
               ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _EditContactAppBar extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-    EdgeInsets padding = MediaQuery.of(context).padding;
-    return Container(
-      color: kWhite,
-      padding: EdgeInsets.symmetric(horizontal: horizantalPadding),
-      width: size.width,
-      height: padding.top + 68,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          GestureDetector(
-            behavior: HitTestBehavior.translucent,
-            onTap: () => Navigator.pop(context),
-            child: Row(
-              children: [
-                Icon(
-                  Icons.arrow_back_ios,
-                  color: kBlack,
-                ),
-                Text(
-                  PhoneBookTexts.back,
-                  style: kTitleStyle(kBlack),
-                ),
-              ],
             ),
           ),
         ],

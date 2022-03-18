@@ -1,33 +1,17 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:flutter/material.dart';
+import 'package:phone_book/src/app/constants.dart';
+import 'package:phone_book/src/app/texts.dart';
 
 class DefaultAppBar extends StatelessWidget {
-  final Widget leadingIcon;
-  final Widget actionIcon;
-  final Function leadingOnPressed;
-  final Function actionOnPressed;
-  final Color backgroundColor;
-  final Color titleColor;
-  final String title;
-
-  DefaultAppBar({
-    required this.leadingIcon,
-    required this.actionIcon,
-    required this.leadingOnPressed,
-    required this.actionOnPressed,
-    required this.backgroundColor,
-    required this.titleColor,
-    required this.title,
-  });
-
+  final String? appBarText;
+  DefaultAppBar(this.appBarText);
   @override
   Widget build(BuildContext context) {
-    double topPadding = MediaQuery.of(context).padding.top;
     Size size = MediaQuery.of(context).size;
+    EdgeInsets padding = MediaQuery.of(context).padding;
     return Container(
       decoration: BoxDecoration(
-        color: backgroundColor,
+        color: kWhite,
         border: Border(
           bottom: BorderSide(
             color: Colors.black.withOpacity(0.02),
@@ -35,47 +19,38 @@ class DefaultAppBar extends StatelessWidget {
         ),
       ),
       width: size.width,
-      height: 68 + topPadding,
+      height: padding.top + 68,
       padding: EdgeInsets.only(
-        top: topPadding,
+        top: padding.top,
+        left: horizantalPadding,
+        right: horizantalPadding,
       ),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          TextButton(
-            style: ButtonStyle(
-              overlayColor:
-                  MaterialStateProperty.resolveWith((_) => Colors.transparent),
-              padding: MaterialStateProperty.resolveWith(
-                (_) => EdgeInsets.zero,
-              ),
-            ),
-            child: leadingIcon,
-            onPressed: () {
-              leadingOnPressed();
-            },
-          ),
-          Text(
-            title,
-            style: TextStyle(
-              color: titleColor,
-              fontSize: 18,
-              fontWeight: FontWeight.w600,
+          GestureDetector(
+            behavior: HitTestBehavior.translucent,
+            onTap: () => Navigator.pop(context),
+            child: Row(
+              children: [
+                Icon(
+                  Icons.arrow_back_ios,
+                  color: kBlack,
+                ),
+                Text(
+                  PhoneBookTexts.back,
+                  style: kTitleStyle(kBlack),
+                ),
+              ],
             ),
           ),
-          TextButton(
-            style: ButtonStyle(
-              overlayColor:
-                  MaterialStateProperty.resolveWith((_) => Colors.transparent),
-              padding: MaterialStateProperty.resolveWith(
-                (_) => EdgeInsets.zero,
-              ),
-            ),
-            child: actionIcon,
-            onPressed: () {
-              actionOnPressed();
-            },
-          ),
+          appBarText != null
+              ? Text(
+                  appBarText!,
+                  style: kTitleStyle(kBlack),
+                )
+              : Container(),
         ],
       ),
     );

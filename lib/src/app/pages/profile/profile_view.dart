@@ -5,6 +5,7 @@ import 'package:phone_book/src/app/constants.dart';
 import 'package:phone_book/src/app/pages/edit_profile/edit_profile_view.dart';
 import 'package:phone_book/src/app/pages/profile/profile_controller.dart';
 import 'package:phone_book/src/app/texts.dart';
+import 'package:phone_book/src/app/widgets/default_app_bar.dart';
 import 'package:phone_book/src/data/repositories/data_user_repository.dart';
 import 'package:phone_book/src/domain/entities/user.dart';
 
@@ -27,8 +28,7 @@ class _ProfileViewState extends ViewState<ProfileView, ProfileController> {
       key: globalKey,
       body: Column(
         children: [
-          SizedBox(height: defaultSizedBoxPadding),
-          _ProfileAppBar(),
+          DefaultAppBar(PhoneBookTexts.myProfile),
           Expanded(
             child: SingleChildScrollView(
               physics: AlwaysScrollableScrollPhysics(
@@ -39,45 +39,6 @@ class _ProfileViewState extends ViewState<ProfileView, ProfileController> {
                 ],
               ),
             ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _ProfileAppBar extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-    EdgeInsets padding = MediaQuery.of(context).padding;
-    return Container(
-      color: kWhite,
-      padding: EdgeInsets.symmetric(horizontal: horizantalPadding),
-      width: size.width,
-      height: padding.top + 68,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          GestureDetector(
-            behavior: HitTestBehavior.translucent,
-            onTap: () => Navigator.pop(context),
-            child: Row(
-              children: [
-                Icon(
-                  Icons.arrow_back_ios,
-                  color: kBlack,
-                ),
-                Text(
-                  PhoneBookTexts.back,
-                  style: kTitleStyle(kBlack),
-                ),
-              ],
-            ),
-          ),
-          Text(
-            PhoneBookTexts.myProfile,
-            style: kTitleStyle(kBlack),
           ),
         ],
       ),

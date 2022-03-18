@@ -1,6 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:phone_book/src/app/pages/home/home_presenter.dart';
+import 'package:phone_book/src/app/pages/search_result/search_result_view.dart';
 import 'package:phone_book/src/domain/entities/contact.dart';
 import 'package:phone_book/src/domain/repositories/contact_repository.dart';
 import 'package:phone_book/src/domain/repositories/user_repository.dart';
@@ -75,6 +77,12 @@ class HomeController extends Controller {
   void onSearchValueSubmit(String value) async {
     if (value.trim().length > 1) {
       editingController.clear();
+      Navigator.push(
+        getContext(),
+        CupertinoPageRoute(
+          builder: (context) => SearchResultView(value),
+        ),
+      );
     }
     refreshUI();
   }

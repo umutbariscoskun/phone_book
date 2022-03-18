@@ -5,6 +5,7 @@ import 'package:phone_book/src/app/constants.dart';
 import 'package:phone_book/src/app/pages/contact_detail/contact_detail_controller.dart';
 import 'package:phone_book/src/app/pages/edit_contact/edit_contact_view.dart';
 import 'package:phone_book/src/app/texts.dart';
+import 'package:phone_book/src/app/widgets/default_app_bar.dart';
 import 'package:phone_book/src/app/widgets/default_progress_indicator.dart';
 import 'package:phone_book/src/data/repositories/data_contact_repository.dart';
 import 'package:phone_book/src/data/repositories/data_user_repository.dart';
@@ -41,8 +42,7 @@ class _ContactDetailViewState
       body: Container(
         child: Column(
           children: [
-            SizedBox(height: 12),
-            _ContactDetailAppBar(),
+            DefaultAppBar(null),
             Expanded(
               child: SingleChildScrollView(
                 physics: AlwaysScrollableScrollPhysics(
@@ -62,49 +62,6 @@ class _ContactDetailViewState
             ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class _ContactDetailAppBar extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-    EdgeInsets padding = MediaQuery.of(context).padding;
-    return Container(
-      color: kWhite,
-      padding: EdgeInsets.symmetric(horizontal: horizantalPadding),
-      width: size.width,
-      height: padding.top + 68,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          GestureDetector(
-            behavior: HitTestBehavior.translucent,
-            onTap: () => Navigator.pop(context),
-            child: Row(
-              children: [
-                Icon(
-                  Icons.arrow_back_ios,
-                  color: kBlack,
-                ),
-                Text(
-                  PhoneBookTexts.back,
-                  style: kTitleStyle(kBlack),
-                ),
-              ],
-            ),
-          ),
-          GestureDetector(
-            behavior: HitTestBehavior.translucent,
-            child: Container(
-              width: 20,
-              height: 20,
-              child: Image(image: AssetImage("assets/images/menu.png")),
-            ),
-          ),
-        ],
       ),
     );
   }
