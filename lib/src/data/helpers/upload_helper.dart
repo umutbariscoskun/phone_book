@@ -21,15 +21,17 @@ class UploadHelper {
     UploadTask uploadTask = fileReference.putFile(File(imagePath));
 
     String? imageUrl;
-    await uploadTask.whenComplete(() async {
-      try {
-        imageUrl = await fileReference.getDownloadURL();
-      } catch (e, st) {
-        print(e);
-        print(st);
-        rethrow;
-      }
-    });
+    await uploadTask.whenComplete(
+      () async {
+        try {
+          imageUrl = await fileReference.getDownloadURL();
+        } catch (e, st) {
+          print(e);
+          print(st);
+          rethrow;
+        }
+      },
+    );
 
     return imageUrl!;
   }
