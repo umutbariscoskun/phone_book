@@ -211,8 +211,23 @@ class DataContactRepository implements ContactRepository {
   }
 
   @override
-  Future<List<Contact>> searchContact(String searchValue) {
-    // TODO: implement searchContact
-    throw UnimplementedError();
+  Future<List<Contact>> searchContact(String searchValue) async {
+    try {
+      List<Contact> searchedContacts = [];
+
+      for (int index = 0; index < _contacts.length; index++) {
+        if (_contacts[index].firstName.contains(searchValue) ||
+            _contacts[index].phoneNumber.contains(searchValue) ||
+            _contacts[index].lastName.contains(searchValue) ||
+            _contacts[index].email.contains(searchValue)) {
+          searchedContacts.add(_contacts[index]);
+        }
+      }
+      return searchedContacts;
+    } catch (e, st) {
+      print(e);
+      print(st);
+      rethrow;
+    }
   }
 }

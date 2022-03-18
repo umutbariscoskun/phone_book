@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:phone_book/src/app/pages/home/home_presenter.dart';
 import 'package:phone_book/src/app/pages/search_result/search_result_view.dart';
@@ -21,6 +20,7 @@ class HomeController extends Controller {
 
   List<Contact>? contacts;
   final Map<String, List<Contact>> groupedLists = {};
+  List<Contact> searchedContacts = [];
 
   @override
   void onInitState() {
@@ -59,7 +59,10 @@ class HomeController extends Controller {
 
     _presenter.getCurrentUserOnError = (e) {};
 
-    _presenter.searchContactOnNext = (List<Contact>? response) {};
+    _presenter.searchContactOnNext = (List<Contact>? response) {
+      searchedContacts = response!;
+      refreshUI();
+    };
 
     _presenter.searchContactOnError = (e) {};
   }
@@ -75,12 +78,14 @@ class HomeController extends Controller {
   }
 
   void onSearchValueSubmit(String value) async {
+    _presenter.searchContact(value);
+
     if (value.trim().length > 1) {
       editingController.clear();
       Navigator.push(
         getContext(),
         CupertinoPageRoute(
-          builder: (context) => SearchResultView(value),
+          builder: (context) => SearchResultView(searchedContacts),
         ),
       );
     }

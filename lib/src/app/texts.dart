@@ -17,6 +17,8 @@ class PhoneBookTexts {
       'Tap to image for changing contact photo';
   static String get emptyContacts =>
       'You dont have any contact, You can start with add contact!';
+  static String get notFound =>
+      'It seems you dont have this contact. Please try again';
 
   static String get chooseImageSource => 'Choose image source';
 
