@@ -19,6 +19,10 @@ const double defaultSizedBoxPadding = 15;
 
 const String profilePhotoPlaceHolder =
     "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png";
+const String imagePlaceHolder =
+    'https://socialistmodernism.com/wp-content/uploads/2017/07/placeholder-image.png?w=640';
+const String cameraImage =
+    'https://static.vecteezy.com/system/resources/previews/003/715/574/non_2x/camera-sign-and-symbol-photo-icon-or-image-icon-vector.jpg';
 
 TextStyle kLargeTitleStyle(Color color) {
   return TextStyle(

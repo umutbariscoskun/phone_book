@@ -1,14 +1,17 @@
 import 'package:cross_file/cross_file.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:phone_book/src/app/constants.dart';
 import 'package:phone_book/src/app/pages/edit_profile/edit_profile_presenter.dart';
 import 'package:phone_book/src/app/pages/home/home_view.dart';
 import 'package:phone_book/src/app/texts.dart';
+import 'package:phone_book/src/app/widgets/image_source_dialog.dart';
 import 'package:phone_book/src/domain/entities/user.dart';
 import 'package:phone_book/src/domain/repositories/user_repository.dart';
 import 'package:phone_book/src/domain/types/enums/banner_type.dart';
+import 'package:phone_book/src/domain/types/enums/image_source_type.dart';
 import 'package:phone_book/src/domain/types/enums/storage_bucket_type.dart';
 
 class EditProfileController extends Controller {
@@ -26,6 +29,7 @@ class EditProfileController extends Controller {
   String? phoneNumber;
 
   final ImagePicker imagePicker = ImagePicker();
+  XFile? pickedImage;
 
   @override
   void initListeners() {
@@ -47,10 +51,14 @@ class EditProfileController extends Controller {
 
     _presenter.uploadProfileImageToStorageOnNext = (String? response) {
       downloadUrl = response;
+      print("next");
+      print(downloadUrl);
       refreshUI();
     };
 
-    _presenter.uploadProfileImageToStorageOnError = (e) {};
+    _presenter.uploadProfileImageToStorageOnError = (e) {
+      print("here");
+    };
   }
 
   @override
@@ -74,16 +82,28 @@ class EditProfileController extends Controller {
     refreshUI();
   }
 
-  void pickImage() async {
-    final XFile? image =
-        await imagePicker.pickImage(source: ImageSource.gallery);
+  void onImageGotPressed() async {
+    final ImageSourceType? imageType = await showDialog(
+      context: getContext(),
+      builder: (context) {
+        return ImageSourceDialog();
+      },
+    );
 
+    if (imageType == ImageSourceType.GALLERY) {
+      pickedImage = await imagePicker.pickImage(source: ImageSource.gallery);
+    }
+    if (imageType == ImageSourceType.CAMERA) {
+      print("camera1");
+
+      pickedImage = await imagePicker.pickImage(source: ImageSource.camera);
+      print(pickedImage!.name.toString());
+    }
     _presenter.uploadProfileImageToStorage(
-      image!.path,
-      image.name,
+      pickedImage!.path,
+      pickedImage!.name,
       StorageBucketType.PROFILE,
     );
-    refreshUI();
   }
 
   void updateProfileInformation() {
@@ -95,6 +115,7 @@ class EditProfileController extends Controller {
       phoneNumber != null ? phoneNumber! : currentUser.phoneNumber,
       downloadUrl != null ? downloadUrl! : currentUser.imageUrl,
     );
+
     _presenter.updateUserInformation(editedUser);
     refreshUI();
   }

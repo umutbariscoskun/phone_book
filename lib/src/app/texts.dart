@@ -18,6 +18,8 @@ class PhoneBookTexts {
   static String get emptyContacts =>
       'You dont have any contact, You can start with add contact!';
 
+  static String get chooseImageSource => 'Choose image source';
+
   static String get update => 'Update';
   static String get editContact => 'Edit Contact';
   static String get editYourProfile => 'Edit Your Profile';

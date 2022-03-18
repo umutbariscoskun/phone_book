@@ -1,0 +1,4 @@
+enum ImageSourceType {
+  GALLERY,
+  CAMERA,
+}

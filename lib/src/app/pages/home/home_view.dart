@@ -80,14 +80,15 @@ class _HomeViewState extends ViewState<HomeView, HomeController> {
                                               kContentStyleBold(kPrimaryColor),
                                         )),
                                     Container(
-                                        child: Column(
-                                      children: [
-                                        for (var i = 0;
-                                            i < entry.value.length;
-                                            i++)
-                                          _ContactCard(entry.value[i])
-                                      ],
-                                    )),
+                                      child: Column(
+                                        children: [
+                                          for (var i = 0;
+                                              i < entry.value.length;
+                                              i++)
+                                            _ContactCard(entry.value[i])
+                                        ],
+                                      ),
+                                    ),
                                   ],
                                 ),
                               ),
