@@ -21,6 +21,7 @@ class PhoneBookTexts {
       'It seems you dont have this contact. Please try again';
 
   static String get chooseImageSource => 'Choose image source';
+  static String get myFavorites => 'My Favorites';
 
   static String get update => 'Update';
   static String get editContact => 'Edit Contact';

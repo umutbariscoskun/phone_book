@@ -25,24 +25,6 @@ class DataContactRepository implements ContactRepository {
   List<Contact> _favoritedContacts = [];
 
   @override
-  Future<void> addContact(String uid, Contact contact) async {
-    try {
-      await _firestore
-          .collection("Users")
-          .doc(uid)
-          .collection("Contacts")
-          .add(contact.toJson());
-
-      _contacts.add(contact);
-      _streamController.add(_contacts);
-    } catch (e, st) {
-      print(e);
-      print(st);
-      rethrow;
-    }
-  }
-
-  @override
   Stream<List<Contact>> getContacts(String uid) {
     try {
       if (!_isContactsFetched) _initContacts(uid);
@@ -83,14 +65,14 @@ class DataContactRepository implements ContactRepository {
       final CollectionReference collectionReference =
           _firestore.collection("Users").doc(uid).collection("Contacts");
 
-      collectionReference.doc(editedContact.id).update({
+      collectionReference.doc(editedContact.id).set({
         'firstName': editedContact.firstName,
         'lastName': editedContact.lastName,
         'imageUrl': editedContact.imageUrl,
         'email': editedContact.email,
         'phoneNumber': editedContact.phoneNumber,
         'isFavorited': editedContact.isFavorited,
-      });
+      }, SetOptions(merge: true));
 
       int index =
           _contacts.indexWhere((contact) => contact.id == editedContact.id);
@@ -156,25 +138,20 @@ class DataContactRepository implements ContactRepository {
   }
 
   @override
-  Stream<List<Contact>> getFavoritedContacts(String uid) {
-    // TODO: implement getFavoritedContacts
-    throw UnimplementedError();
-  }
-
-  @override
   Future<void> addContactToFavorites(String uid, Contact contact) async {
     try {
       int index = _contacts.indexWhere((element) => element.id == contact.id);
 
       _contacts[index].isFavorited = true;
-      _favoritedContacts.add(_contacts[index]);
 
       _streamController.add(_contacts);
-      _favoritedsStreamController.add(_favoritedContacts);
 
-      final CollectionReference collectionReference =
-          _firestore.collection("Users").doc(uid).collection("Contacts");
-      await collectionReference.doc(contact.id).set(
+      await _firestore
+          .collection("Users")
+          .doc(uid)
+          .collection("Contacts")
+          .doc(contact.id)
+          .set(
         {'isFavorited': true},
         SetOptions(merge: true),
       );
@@ -191,10 +168,8 @@ class DataContactRepository implements ContactRepository {
       int index = _contacts.indexWhere((element) => element.id == contactId);
 
       _contacts[index].isFavorited = false;
-      _favoritedContacts..remove(_contacts[index]);
 
       _streamController.add(_contacts);
-      _favoritedsStreamController.add(_favoritedContacts);
 
       final CollectionReference collectionReference =
           _firestore.collection("Users").doc(uid).collection("Contacts");
@@ -224,6 +199,39 @@ class DataContactRepository implements ContactRepository {
         }
       }
       return searchedContacts;
+    } catch (e, st) {
+      print(e);
+      print(st);
+      rethrow;
+    }
+  }
+
+  @override
+  Future<void> addContact(String uid, String firstName, String lastName,
+      String downloadUrl, String email, String phoneNumber) async {
+    try {
+      String _contactId = "";
+      await _firestore.collection("Users").doc(uid).collection("Contacts").add({
+        "firstName": firstName,
+        "lastName": lastName,
+        "downloadUrl": downloadUrl,
+        "email": email,
+        "phoneNumber": phoneNumber,
+        'isFavorited': false,
+      }).then((value) => _contactId = value.id);
+
+      Contact createdContact = Contact(
+        id: _contactId,
+        firstName: firstName,
+        lastName: lastName,
+        imageUrl: downloadUrl,
+        email: email,
+        phoneNumber: phoneNumber,
+        isFavorited: false,
+      );
+
+      _contacts.add(createdContact);
+      _streamController.add(_contacts);
     } catch (e, st) {
       print(e);
       print(st);

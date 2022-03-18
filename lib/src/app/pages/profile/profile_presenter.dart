@@ -1,4 +1,5 @@
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
+import 'package:phone_book/src/domain/repositories/contact_repository.dart';
 import 'package:phone_book/src/domain/repositories/user_repository.dart';
 import 'package:phone_book/src/domain/usecases/sign_out.dart';
 
@@ -8,7 +9,8 @@ class ProfilePresenter extends Presenter {
 
   final SignOut _signOut;
 
-  ProfilePresenter(UserRepository _userRepository)
+  ProfilePresenter(
+      UserRepository _userRepository, ContactRepository _contactRepository)
       : _signOut = SignOut(_userRepository);
   @override
   void dispose() {

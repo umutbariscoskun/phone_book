@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:phone_book/src/domain/entities/contact.dart';
 import 'package:phone_book/src/domain/repositories/contact_repository.dart';
@@ -28,8 +30,17 @@ class AddContactPresenter extends Presenter {
     _uploadContactImageToStorage.dispose();
   }
 
-  void addContact(Contact contact) {
-    _addContact.execute(_AddContactObserver(this), AddContactToParams(contact));
+  void addContact(String firstName, String lastName, String downloadUrl,
+      String email, String phoneNumber) {
+    _addContact.execute(
+        _AddContactObserver(this),
+        AddContactToParams(
+          firstName,
+          lastName,
+          downloadUrl,
+          email,
+          phoneNumber,
+        ));
   }
 
   void uploadContactImageToStorage(

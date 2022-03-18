@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:phone_book/src/app/constants.dart';
 import 'package:phone_book/src/app/pages/search_result/search_result_controller.dart';
 import 'package:phone_book/src/app/texts.dart';
+import 'package:phone_book/src/app/widgets/contact_card.dart';
 import 'package:phone_book/src/app/widgets/default_app_bar.dart';
 import 'package:phone_book/src/app/widgets/default_progress_indicator.dart';
 import 'package:phone_book/src/domain/entities/contact.dart';
@@ -42,10 +43,9 @@ class _SearchResultViewState
                     child: Column(
                       children: [
                         for (int i = 0; i < widget.searchedContacts.length; i++)
-                          Text(
-                            widget.searchedContacts[i].firstName,
-                            style: kContentStyleBold(kBlack),
-                          )
+                          ContactCard(
+                            widget.searchedContacts[i],
+                          ),
                       ],
                     ))
                 : Center(
@@ -62,10 +62,13 @@ class _SearchResultViewState
                           ),
                           Container(
                             width: size.width - 50,
-                            child: Text(PhoneBookTexts.notFound,
-                                style:
-                                    kContentStyleThin(kBlack.withOpacity(0.5))),
-                          )
+                            child: Text(
+                              PhoneBookTexts.notFound,
+                              style: kContentStyleThin(
+                                kBlack.withOpacity(0.5),
+                              ),
+                            ),
+                          ),
                         ],
                       ),
                     ),

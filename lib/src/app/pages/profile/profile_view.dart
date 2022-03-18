@@ -2,20 +2,29 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
 import 'package:phone_book/src/app/constants.dart';
+import 'package:phone_book/src/app/pages/contact_detail/contact_detail_view.dart';
 import 'package:phone_book/src/app/pages/edit_profile/edit_profile_view.dart';
 import 'package:phone_book/src/app/pages/profile/profile_controller.dart';
 import 'package:phone_book/src/app/texts.dart';
 import 'package:phone_book/src/app/widgets/default_app_bar.dart';
+import 'package:phone_book/src/data/repositories/data_contact_repository.dart';
 import 'package:phone_book/src/data/repositories/data_user_repository.dart';
+import 'package:phone_book/src/domain/entities/contact.dart';
 import 'package:phone_book/src/domain/entities/user.dart';
 
 class ProfileView extends View {
   final User currentUser;
 
-  ProfileView(this.currentUser);
+  List<Contact> favoritedContacts;
+
+  ProfileView(
+    this.currentUser,
+    this.favoritedContacts,
+  );
   @override
   State<StatefulWidget> createState() {
-    return _ProfileViewState(ProfileController(DataUserRepository()));
+    return _ProfileViewState(
+        ProfileController(DataUserRepository(), DataContactRepository()));
   }
 }
 
@@ -36,6 +45,27 @@ class _ProfileViewState extends ViewState<ProfileView, ProfileController> {
               child: Column(
                 children: [
                   _ProfileDetailContainer(widget.currentUser),
+                  SizedBox(
+                    height: defaultSizedBoxPadding,
+                  ),
+                  ControlledWidgetBuilder<ProfileController>(
+                      builder: (context, controller) {
+                    return widget.favoritedContacts.isNotEmpty
+                        ? Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    left: horizantalPadding),
+                                child: Text(PhoneBookTexts.myFavorites,
+                                    style: kTitleStyle(kBlack)),
+                              ),
+                              SizedBox(height: defaultSizedBoxPadding),
+                              _FavoritesContainer(widget.favoritedContacts),
+                            ],
+                          )
+                        : Container();
+                  })
                 ],
               ),
             ),
@@ -379,11 +409,76 @@ class _ProfileDetailContainer extends StatelessWidget {
               )
             ],
           ),
-          SizedBox(
-            height: padding.bottom + size.width / 4,
-          ),
+          SizedBox(height: defaultSizedBoxPadding),
         ],
       ),
     );
+  }
+}
+
+class _FavoritesContainer extends StatelessWidget {
+  final List<Contact> favorites;
+
+  _FavoritesContainer(this.favorites);
+
+  @override
+  Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+    return Container(
+        padding: EdgeInsets.symmetric(horizontal: horizantalPadding),
+        width: size.width,
+        child: Row(
+          children: [
+            Expanded(
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: [
+                    for (int i = 0; i < favorites.length; i++)
+                      GestureDetector(
+                        onTap: () => Navigator.push(
+                          context,
+                          CupertinoPageRoute(
+                            builder: (context) => ContactDetailView(
+                              favorites[i],
+                            ),
+                          ),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(5),
+                                  ),
+                                  height: 90,
+                                  width: 90,
+                                  child: Image.network(favorites[i].imageUrl),
+                                ),
+                                SizedBox(width: defaultSizedBoxPadding),
+                              ],
+                            ),
+                            Container(
+                              width: 90,
+                              child: Text(
+                                favorites[i].firstName +
+                                    " " +
+                                    favorites[i].lastName,
+                                style: kContentStyleBold(kBlack),
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
+                              ),
+                            )
+                          ],
+                        ),
+                      )
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ));
   }
 }

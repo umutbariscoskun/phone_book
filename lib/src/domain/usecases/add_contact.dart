@@ -23,7 +23,14 @@ class AddContact extends UseCase<void, AddContactToParams> {
       User user = await _userRepository.getCurrentUser();
       String uid = user.uid;
 
-      await _contactRepository.addContact(uid, params!.contact);
+      await _contactRepository.addContact(
+        uid,
+        params!.firstName,
+        params.lastName,
+        params.downloadUrl,
+        params.email,
+        params.phoneNumber,
+      );
       controller.close();
     } catch (e, st) {
       print(e);
@@ -35,9 +42,17 @@ class AddContact extends UseCase<void, AddContactToParams> {
 }
 
 class AddContactToParams {
-  final Contact contact;
+  final String firstName;
+  final String lastName;
+  final String downloadUrl;
+  final String email;
+  final String phoneNumber;
 
   AddContactToParams(
-    this.contact,
+    this.firstName,
+    this.lastName,
+    this.downloadUrl,
+    this.email,
+    this.phoneNumber,
   );
 }

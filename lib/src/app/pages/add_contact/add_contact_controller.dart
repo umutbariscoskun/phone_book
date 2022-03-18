@@ -77,15 +77,14 @@ class AddContactController extends Controller {
   }
 
   void addContact() {
-    Contact contact = Contact(
-      id: DateTime.now().millisecondsSinceEpoch.toString(),
-      firstName: firstName!,
-      lastName: lastName!,
-      imageUrl: downloadUrl != null ? downloadUrl! : profilePhotoPlaceHolder,
-      email: email!,
-      phoneNumber: phoneNumber!,
+    _presenter.addContact(
+      firstName!,
+      lastName!,
+      downloadUrl != null ? downloadUrl! : profilePhotoPlaceHolder,
+      email!,
+      phoneNumber!,
     );
-    _presenter.addContact(contact);
+    refreshUI();
   }
 
   void onImageGotPressed() async {

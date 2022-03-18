@@ -21,6 +21,7 @@ class HomeController extends Controller {
   List<Contact>? contacts;
   final Map<String, List<Contact>> groupedLists = {};
   List<Contact> searchedContacts = [];
+  List<Contact> favoritedContacts = [];
 
   @override
   void onInitState() {
@@ -36,12 +37,17 @@ class HomeController extends Controller {
         contacts = response;
 
         groupedLists.clear();
+        favoritedContacts.clear();
         contacts!.forEach((contact) {
           if (groupedLists['${contact.firstName[0]}'] == null) {
             groupedLists['${contact.firstName[0]}'] = <Contact>[];
           }
 
           groupedLists['${contact.firstName[0]}']!.add(contact);
+
+          if (contact.isFavorited) {
+            favoritedContacts.add(contact);
+          }
         });
 
         refreshUI();

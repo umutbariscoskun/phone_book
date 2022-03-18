@@ -27,7 +27,8 @@ class Contact {
         email = json['email'] == null ? '' : json['email'] as String,
         phoneNumber =
             json['phoneNumber'] == null ? '' : json['phoneNumber'] as String,
-        imageUrl = json['imageUrl'] == null ? '' : json['imageUrl'] as String,
+        imageUrl =
+            json['downloadUrl'] == null ? '' : json['downloadUrl'] as String,
         isFavorited = json['isFavorited'];
 
   Map<String, dynamic> toJson() {
