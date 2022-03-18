@@ -1,5 +1,5 @@
 class PhoneBookTexts {
-  static String get kctek => 'deneme';
+  static String get kctek => 'KCTEK';
   static String get myContacts => 'My Contacts';
   static String get searchContact => 'Search Contact';
   static String get addContact => 'Add Contact';
@@ -22,6 +22,8 @@ class PhoneBookTexts {
 
   static String get chooseImageSource => 'Choose image source';
   static String get myFavorites => 'My Favorites';
+  static String get youDontHaveFavorite =>
+      'You dont have any favorite contact. You can reach them here!';
 
   static String get update => 'Update';
   static String get editContact => 'Edit Contact';

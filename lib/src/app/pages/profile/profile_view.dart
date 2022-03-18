@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_clean_architecture/flutter_clean_architecture.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:lottie/lottie.dart';
 import 'package:phone_book/src/app/constants.dart';
 import 'package:phone_book/src/app/pages/contact_detail/contact_detail_view.dart';
 import 'package:phone_book/src/app/pages/edit_profile/edit_profile_view.dart';
@@ -32,6 +34,7 @@ class _ProfileViewState extends ViewState<ProfileView, ProfileController> {
   _ProfileViewState(ProfileController controller) : super(controller);
   @override
   Widget get view {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: kWhite,
       key: globalKey,
@@ -64,7 +67,27 @@ class _ProfileViewState extends ViewState<ProfileView, ProfileController> {
                               _FavoritesContainer(widget.favoritedContacts),
                             ],
                           )
-                        : Container();
+                        : Column(
+                            children: [
+                              Opacity(
+                                opacity: 0.5,
+                                child: Container(
+                                  width: size.width,
+                                  height: 100,
+                                  child: SvgPicture.asset(
+                                      "assets/images/favorite_empty.svg"),
+                                ),
+                              ),
+                              SizedBox(height: defaultSizedBoxPadding),
+                              Container(
+                                child: Text(
+                                  PhoneBookTexts.youDontHaveFavorite,
+                                  style: kContentStyleThin(
+                                      kBlack.withOpacity(0.5)),
+                                ),
+                              ),
+                            ],
+                          );
                   })
                 ],
               ),
@@ -450,16 +473,20 @@ class _FavoritesContainer extends StatelessWidget {
                             Row(
                               children: [
                                 Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(5),
-                                  ),
-                                  height: 90,
-                                  width: 90,
-                                  child: Image.network(favorites[i].imageUrl),
-                                ),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(5),
+                                    ),
+                                    height: 90,
+                                    width: 90,
+                                    child: Image(
+                                      image:
+                                          NetworkImage(favorites[i].imageUrl),
+                                      fit: BoxFit.fill,
+                                    )),
                                 SizedBox(width: defaultSizedBoxPadding),
                               ],
                             ),
+                            SizedBox(height: 5),
                             Container(
                               width: 90,
                               child: Text(
