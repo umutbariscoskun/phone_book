@@ -143,18 +143,9 @@ class _CurrentUserAppBar extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Row(
-            children: [
-              Icon(
-                Icons.menu,
-                color: kBlack,
-              ),
-              SizedBox(width: defaultSizedBoxPadding),
-              Text(
-                PhoneBookTexts.myContacts,
-                style: kLargeTitleStyle(kBlack),
-              ),
-            ],
+          Text(
+            PhoneBookTexts.myContacts,
+            style: kLargeTitleStyle(kBlack),
           ),
           GestureDetector(
             onTap: () => Navigator.push(
