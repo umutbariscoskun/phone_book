@@ -1,6 +1,6 @@
 class PhoneBookTexts {
   static String get pickImage => 'pickImage';
-  static String get demoText => 'demo';
+  static String get demoText => 'demo2';
 
   static String get kctek => 'PhoneBook';
   static String get myContacts => 'My Contacts';
